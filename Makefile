@@ -6,13 +6,13 @@
 SRC_PATH = sources
 
 #	List of source files
-SRC_NAME = 
+SRC_NAME = lem_in.c \
 
 #	Source full name
 SRC = $(addprefix $(SRC_PATH)/, $(SRC_NAME))
 
 #	Path of object files
-OBJ_PATH =
+OBJ_PATH = objects
 
 #	Get objects names from source files
 OBJ_NAME = $(SRC_NAME:.c=.o)
