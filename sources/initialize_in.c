@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 14:45:31 by seimori           #+#    #+#             */
-/*   Updated: 2020/03/02 15:42:30 by seimori          ###   ########.fr       */
+/*   Updated: 2020/03/02 22:56:55 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_room          *create_room_node(int id, int x, int y)
     room->y = y;
     room->score = INF;
     room->next = NULL;
+    room->trail = NULL;
     return (room);
 }
 

@@ -20,6 +20,9 @@
 */
 #include <stdlib.h>
 
+#define FALSE 0
+#define TRUE 1
+
 #define INF 0x7FFFFFFF
 
 typedef struct      s_room
@@ -29,6 +32,7 @@ typedef struct      s_room
   int               y;
   int               score;
   struct s_room     *next;
+  struct s_room     *trail;
 }                   t_room;
 
 typedef struct      s_tube
