@@ -9,6 +9,9 @@ SRC_PATH = sources
 #	List of source files
 #	!!!!!!!!!!!!!!!!!!!!
 SRC_NAME = lem_in.c \
+initialize_in.c generate_matrix.c \
+pathfinder.c \
+get_test_case.c \
 
 #	Source full name
 SRC = $(addprefix $(SRC_PATH)/, $(SRC_NAME))
@@ -43,7 +46,7 @@ LDLIBS = -lft
 CC = gcc
 
 #	Compilator options
-CFLAGS = -Werror -Wall -Wextra
+CFLAGS = -g -Werror -Wall -Wextra
 
 #	!!!!!To change!!!!!!
 #	Output name
