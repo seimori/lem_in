@@ -23,6 +23,8 @@
 #define FALSE 0
 #define TRUE 1
 
+#define CLOSED 2
+
 #define INF 0x7FFFFFFF
 
 typedef struct      s_room
