@@ -73,9 +73,14 @@ int             **generate_matrix(t_in *in);
 t_in            *get_test_case();
 
 /*
-**  get_max_paths
+**  get_max_paths.c
 */
 int             get_max_paths(t_in *in);
+
+/*
+**  get_paths.c
+*/
+t_room          **get_paths(t_in *in, int max_paths);
 
 /*
 **  pathfinder.c
