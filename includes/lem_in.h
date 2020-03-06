@@ -36,6 +36,7 @@ typedef struct      s_room
   int               score;
   struct s_room     *next;
   struct s_room     *trail;
+  int               ants;
 }                   t_room;
 
 typedef struct      s_tube
@@ -53,6 +54,7 @@ typedef struct      s_in
   t_room            *end_room;
   int               room_count;
   int               **matrix;
+  int               max_paths;
 }                   t_in;
 
 /*
@@ -80,7 +82,7 @@ int             get_max_paths(t_in *in);
 /*
 **  get_paths.c
 */
-t_room          **get_paths(t_in *in, int max_paths);
+t_room          **get_paths(t_in *in);
 
 /*
 **  pathfinder.c
@@ -92,3 +94,8 @@ t_room          *remove_from_queue(t_room *queue, t_room *node);
 **  get_next_neighbor.c
 */
 t_room          *get_next_neighbor(t_in *in, t_room *node, t_room *neighbor);
+
+/*
+**  ant_calculus.c
+*/
+int             *ant_calculus(t_in *in, t_room **paths);

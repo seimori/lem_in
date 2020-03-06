@@ -11,6 +11,7 @@ SRC_PATH = sources
 SRC_NAME = lem_in.c get_max_paths.c \
 initialize_in.c generate_matrix.c \
 get_paths.c pathfinder.c get_next_neighbor.c \
+ant_calculus.c \
 get_test_case.c \
 
 #	Source full name

@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 14:45:31 by seimori           #+#    #+#             */
-/*   Updated: 2020/03/02 22:56:55 by seimori          ###   ########.fr       */
+/*   Updated: 2020/03/06 17:11:58 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_room          *create_room_node(int id, int x, int y)
     room->score = INF;
     room->next = NULL;
     room->trail = NULL;
+    room->ants = 0;
     return (room);
 }
 
@@ -42,7 +43,7 @@ t_in            *initialize_in()
     t_in        *in;
 
     in = (t_in*)ft_memalloc(sizeof(t_in));
-    in->ant_size = 0;
+    in->ant_size = 10;
     in->room = NULL;
     in->tube = NULL;
     in->end_room = NULL;

@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 16:18:46 by seimori           #+#    #+#             */
-/*   Updated: 2020/03/06 16:26:39 by seimori          ###   ########.fr       */
+/*   Updated: 2020/03/06 16:37:38 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,14 @@ t_room          *remove_path_from_queue(t_in *in, t_room *path)
     return (in->room);
 }
 
-t_room **get_paths(t_in *in, int max_paths)
+t_room **get_paths(t_in *in)
 {
 	int      path_count;
 	t_room **paths;
 
 	path_count = 0;
-	paths = initialize_paths(in, max_paths);
-	while (path_count < max_paths)
+	paths = initialize_paths(in, in->max_paths);
+	while (path_count < in->max_paths)
 	{
 		if (path_count > 0)
 		{
