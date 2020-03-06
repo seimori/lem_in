@@ -23,7 +23,8 @@
 #define FALSE 0
 #define TRUE 1
 
-#define CLOSED 2
+#define VISITED 2
+#define LOCKED 3
 
 #define INF 0x7FFFFFFF
 
@@ -72,6 +73,17 @@ int             **generate_matrix(t_in *in);
 t_in            *get_test_case();
 
 /*
+**  get_max_paths
+*/
+int             get_max_paths(t_in *in);
+
+/*
 **  pathfinder.c
 */
 t_room          *pathfinder(t_in *in);
+t_room          *remove_from_queue(t_room *queue, t_room *node);
+
+/*
+**  get_next_neighbor.c
+*/
+t_room          *get_next_neighbor(t_in *in, t_room *node, t_room *neighbor);

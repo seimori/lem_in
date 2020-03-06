@@ -8,9 +8,9 @@ SRC_PATH = sources
 #	!!!!!To change!!!!!!
 #	List of source files
 #	!!!!!!!!!!!!!!!!!!!!
-SRC_NAME = lem_in.c \
+SRC_NAME = lem_in.c get_max_paths.c \
 initialize_in.c generate_matrix.c \
-pathfinder.c \
+pathfinder.c get_next_neighbor.c \
 get_test_case.c \
 
 #	Source full name

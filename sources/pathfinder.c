@@ -6,22 +6,11 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 15:25:36 by seimori           #+#    #+#             */
-/*   Updated: 2020/03/03 17:52:58 by seimori          ###   ########.fr       */
+/*   Updated: 2020/03/06 04:07:36 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
-
-t_room          *get_room(t_room *node, int id)
-{
-    while (node)
-    {
-        if (node->id == id)
-            return(node);
-        node = node->next;
-    }
-    return (NULL);
-}
 
 t_room          *remove_from_queue(t_room *queue, t_room *node)
 {
@@ -67,32 +56,6 @@ t_room          *update_score(t_room *node, t_room *neighbor)
 	return (neighbor);
 }
 
-int             **update_matrix(t_in *in, int col, int row)
-{
-    in->matrix[col][row] = CLOSED;
-    in->matrix[row][col] = CLOSED;
-    return (in->matrix);
-}
-
-t_room          *get_next_neighbor(t_in *in, t_room *node, t_room *neighbor)
-{
-    int     row;
-
-    row = 0;
-    while (row < in->room_count)
-    {
-        if (in->matrix[node->id][row] == 1)
-        {
-            neighbor = get_room(in->room, row);
-            in->matrix = update_matrix(in, node->id, row);
-            if (neighbor)
-				return (neighbor);
-		}
-        row++;
-    }
-    return (NULL);
-}
-
 t_room          *explore_node(t_in *in, t_room *node)
 {
     t_room      *neighbor;
@@ -107,7 +70,6 @@ t_room          *explore_node(t_in *in, t_room *node)
             node = reorder_queue(node, neighbor);
 		}
 	}
-    node = node->next;
     return (node);
 }
 
@@ -121,6 +83,7 @@ t_room          *pathfinder(t_in *in)
         if (queue == in->end_room)
             return (queue);
 		queue = explore_node(in, queue);
+        queue = queue->next;
 	}
     return (NULL);
 }
