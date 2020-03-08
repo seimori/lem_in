@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/29 15:46:59 by seimori           #+#    #+#             */
-/*   Updated: 2020/03/08 02:32:02 by seimori          ###   ########.fr       */
+/*   Updated: 2020/03/08 02:36:13 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int            print_ant(t_room *first, t_room *path)
 {
-    if (!path)
+    if (!path->trail)
         return (0);
     print_ant(first, path->trail);
     ft_printf("L%d-%d\n", 1, path->id);
