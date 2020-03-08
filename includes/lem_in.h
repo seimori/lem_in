@@ -98,4 +98,4 @@ t_room          *get_next_neighbor(t_in *in, t_room *node, t_room *neighbor);
 /*
 **  ant_calculus.c
 */
-int             *ant_calculus(t_in *in, t_room **paths);
+t_room          **ant_calculus(t_in *in, t_room **paths);
