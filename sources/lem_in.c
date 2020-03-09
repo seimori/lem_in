@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/29 15:46:59 by seimori           #+#    #+#             */
-/*   Updated: 2020/03/09 02:54:04 by seimori          ###   ########.fr       */
+/*   Updated: 2020/03/09 10:51:57 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,35 +33,62 @@
 //     return (1);
 // }
 
+void          initialize_first(t_in *in, t_room **paths, t_room **first)
+{
+    int     path_id;
+
+    path_id = 0;
+    while (path_id < in->max_paths)
+    {
+        first[path_id] = paths[path_id];
+        path_id++;
+    }
+}
+
+t_room          **reset_paths_to_first(t_in *in, t_room **paths, t_room **first)
+{
+    int path_id;
+
+    path_id = 0;
+    while (path_id < in->max_paths)
+    {
+        paths[path_id] = first[path_id];
+        path_id++;
+    }
+    return (paths);
+}
+
 void             print_ant(t_in *in, t_room **paths, int ant_size)
 {
-    t_room  *temp0;
-    t_room  *temp1;
+	int      path_id;
+	t_room * first[in->max_paths];
 
-    temp0 = paths[0];
-    temp1 = paths[1];
-    while (temp0 && temp1 && ant_size <= in->ant_size)
+	path_id = 0;
+    initialize_first(in, paths, first);
+    while (paths[path_id] && ant_size <= in->ant_size)
     {
-        if (ant_size > 0 && ant_size % in->max_paths)
-        {
-			ft_printf("L%d-%d ", ant_size, temp1->id);
-            temp1 = temp1->trail;
-        }
-		else
-        {
-			ft_printf("L%d-%d ", ant_size, temp0->id);
-            temp0 = temp0->trail;
-        }
+        if (ant_size > 0)
+			ft_printf("L%d-%d ", ant_size, paths[path_id]->id);
 		ant_size++;
+        paths[path_id] = paths[path_id]->trail;
+        path_id = (path_id + 1) % in->max_paths;
 	}
+    paths = reset_paths_to_first(in, paths, first);
 }
 
 int            print_ants(t_in *in, t_room **paths, int ant_size)
 {
     int     path_id;
+    int     total_score;
 
     path_id = 0;
-	if (ant_size + paths[path_id]->score <= 0)
+    total_score = 0;
+    while (path_id < in->max_paths)
+    {
+        total_score += paths[path_id]->score;
+        path_id++;
+    }
+	if (ant_size + total_score <= 0)
         return (0);
     print_ants(in, paths, ant_size - 1);
     print_ant(in, paths, ant_size);
