@@ -36,6 +36,7 @@ typedef struct      s_room
   int               score;
   struct s_room     *next;
   struct s_room     *trail;
+  struct s_room     *route;
   int               ants;
 }                   t_room;
 
