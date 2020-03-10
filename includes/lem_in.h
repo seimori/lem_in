@@ -100,3 +100,8 @@ t_room          *get_next_neighbor(t_in *in, t_room *node, t_room *neighbor);
 **  ant_calculus.c
 */
 t_room          **ant_calculus(t_in *in, t_room **paths);
+
+/*
+**  print_ants.c
+*/
+void            print_ants(t_in *in, t_room **paths);
