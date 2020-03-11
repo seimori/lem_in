@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 14:43:43 by seimori           #+#    #+#             */
-/*   Updated: 2020/03/02 23:39:57 by seimori          ###   ########.fr       */
+/*   Updated: 2020/03/11 15:39:46 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,30 +17,30 @@ t_room          *create_test_rooms(t_in *in)
 	t_room *first_room;
 
 	in->room = create_room_node(1, 23, 3);
-  in->room_count++;
+	in->room_count++;
 	first_room = in->room;
-  first_room->score = 0;
+	first_room->score = 0;
 	in->room->next = create_room_node(2, 16, 7);
 	in->room = in->room->next;
-  in->room_count++;
+	in->room_count++;
 	in->room->next = create_room_node(3, 16, 3);
 	in->room = in->room->next;
-  in->room_count++;
+	in->room_count++;
 	in->room->next = create_room_node(4, 16, 5);
 	in->room = in->room->next;
-  in->room_count++;
+	in->room_count++;
 	in->room->next = create_room_node(5, 9, 3);
 	in->room = in->room->next;
-  in->room_count++;
+	in->room_count++;
 	in->room->next = create_room_node(6, 1, 5);
 	in->room = in->room->next;
-  in->room_count++;
+	in->room_count++;
 	in->room->next = create_room_node(7, 4, 8);
 	in->room = in->room->next;
-  in->room_count++;
+	in->room_count++;
 	in->room->next = create_room_node(0, 9, 5);
-  in->end_room = in->room->next;
-  in->room_count++;
+	in->end_room = in->room->next;
+	in->room_count++;
 	return (first_room);
 }
 

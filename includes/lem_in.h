@@ -30,32 +30,33 @@
 
 typedef struct      s_room
 {
-  int               id;
-  int               x;
-  int               y;
-  int               score;
-  struct s_room     *next;
-  struct s_room     *trail;
-  struct s_room     *route;
-  int               ants;
+	int               id;
+	int               x;
+	int               y;
+	char              *name;
+	int               score;
+	struct s_room     *next;
+	struct s_room     *trail;
+	struct s_room     *route;
+	int               ants;
 }                   t_room;
 
 typedef struct      s_tube
 {
-  int               in;
-  int               out;
-  struct s_tube     *next;
+	int               in;
+	int               out;
+	struct s_tube     *next;
 }                   t_tube;
 
 typedef struct      s_in
 {
-  int               ant_size;
-  t_tube            *tube;
-  t_room            *room;
-  t_room            *end_room;
-  int               room_count;
-  int               **matrix;
-  int               max_paths;
+	int               ant_size;
+	t_tube            *tube;
+	t_room            *room;
+	t_room            *end_room;
+	int               room_count;
+	int               **matrix;
+	int               max_paths;
 }                   t_in;
 
 /*

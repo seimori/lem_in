@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 14:45:31 by seimori           #+#    #+#             */
-/*   Updated: 2020/03/10 03:02:20 by seimori          ###   ########.fr       */
+/*   Updated: 2020/03/11 15:44:55 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_room          *create_room_node(int id, int x, int y)
     room->id = id;
     room->x = x;
     room->y = y;
+    room->name = ft_itoa(id);
     room->score = INF;
     room->next = NULL;
     room->trail = NULL;
