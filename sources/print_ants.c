@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/10 15:32:14 by seimori           #+#    #+#             */
-/*   Updated: 2020/03/11 15:43:55 by seimori          ###   ########.fr       */
+/*   Updated: 2020/03/12 19:27:16 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,16 @@ void          initialize_ant_paths(t_in *in, t_room **paths, t_room **ant_paths)
     }
 }
 
+int				escape_end_room_check(t_in *in, t_room **ant_paths,
+int ant_check)
+{
+	if (ant_paths[ant_check] == in->end_room
+	&& ant_paths[ant_check]->trail != in->room)
+		return (FALSE);
+	else
+		return (TRUE);
+}
+
 int             is_next_turn(t_in *in, t_room **ant_paths, int ant_id)
 {
     int ant_check;
@@ -61,7 +71,8 @@ int             is_next_turn(t_in *in, t_room **ant_paths, int ant_id)
     {
 		while (!ant_paths[ant_check])
             ant_check++;
-		if (ant_paths[ant_check]->trail->id == ant_paths[ant_id]->id)
+		if (escape_end_room_check(in, ant_paths, ant_check)
+		&& ant_paths[ant_check]->trail->id == ant_paths[ant_id]->id)
             return (TRUE);
         ant_check++;
     }

@@ -77,6 +77,12 @@ int             **generate_matrix(t_in *in);
 t_in            *get_test_case();
 
 /*
+**	test_case_multi_paths.c
+*/
+t_room			*multi_path_rooms(t_in *in);
+t_tube			*multi_path_test_tubes(t_in *in);
+
+/*
 **  get_max_paths.c
 */
 int             get_max_paths(t_in *in);

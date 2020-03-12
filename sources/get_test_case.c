@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 14:43:43 by seimori           #+#    #+#             */
-/*   Updated: 2020/03/11 15:39:46 by seimori          ###   ########.fr       */
+/*   Updated: 2020/03/12 18:59:21 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,10 @@ t_in            *get_test_case()
 	t_in   *in;
 
 	in = initialize_in();
-	in->room = create_test_rooms(in);
-	in->tube = create_test_tubes(in);
-  in->matrix = generate_matrix(in);
+	// in->room = create_test_rooms(in);
+	in->room = multi_path_rooms(in);
+	// in->tube = create_test_tubes(in);
+	in->tube = multi_path_test_tubes(in);
+	in->matrix = generate_matrix(in);
 	return (in);
 }
