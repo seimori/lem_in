@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 16:18:46 by seimori           #+#    #+#             */
-/*   Updated: 2020/03/08 02:22:25 by seimori          ###   ########.fr       */
+/*   Updated: 2020/03/16 01:07:48 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,12 @@ t_room      *reset_score(t_room *queue)
     return (first);
 }
 
+t_room		**step_back_from_end(t_room **paths, int path_count)
+{
+	paths[path_count - 1] = paths[path_count - 1]->trail;
+	return (paths);
+}
+
 t_room **get_paths(t_in *in)
 {
 	int      path_count;
@@ -114,6 +120,6 @@ t_room **get_paths(t_in *in)
 			return (paths);
 		path_count++;
 	}
-  paths[path_count - 1] = paths[path_count - 1]->trail;
+	paths = step_back_from_end(paths, path_count);
 	return (paths);
 }

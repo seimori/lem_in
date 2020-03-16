@@ -13,7 +13,9 @@ initialize_in.c generate_matrix.c \
 get_paths.c pathfinder.c get_next_neighbor.c \
 ant_calculus.c \
 print_ants.c \
-get_test_case.c test_case_multi_paths.c \
+env_to_in.c \
+parsing.c li_free.c ari_get_next_line.c ft_strjoinfree.c \
+# get_test_case.c test_case_multi_paths.c \
 
 #	Source full name
 SRC = $(addprefix $(SRC_PATH)/, $(SRC_NAME))
