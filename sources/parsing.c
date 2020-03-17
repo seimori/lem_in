@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 17:22:10 by ariperez          #+#    #+#             */
-/*   Updated: 2020/03/15 16:51:41 by seimori          ###   ########.fr       */
+/*   Updated: 2020/03/16 17:42:08 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,19 +189,24 @@ int		read_map(t_env *e, char **inst)
 	if (ants(e, inst))
 		if (fill_names(e, inst, 0, 0))
 			fill_links(e, inst, 1);
-	print_links(e);
+	// print_links(e);
 	return (1);
 }
 
-t_env		*parsing(void)
+t_env		*parsing(char *pathname)
 {
 	t_env	*e;
 	char	**inst;
 
 	e = NULL;
 	inst = NULL;
-	if ((e = malloc(sizeof(t_env))) == NULL || !(e->fd = open(PATHNAME, FLAGS)) ||
-	(inst = malloc(sizeof(char*))) == NULL || read_map(e, inst) == 0)
+	e = ft_memalloc(sizeof(t_env));
+	inst = ft_memalloc(sizeof(char*));
+	if (pathname)
+		e->fd = open(pathname, FLAGS);
+	else
+		e->fd = STDIN_FILENO;
+	if (read_map(e, inst) == 0)
 		error(e, inst, 1);
 	return (e);
 }

@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/10 15:32:14 by seimori           #+#    #+#             */
-/*   Updated: 2020/03/12 19:27:16 by seimori          ###   ########.fr       */
+/*   Updated: 2020/03/17 20:13:47 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_room          **write_route(t_in *in, t_room **paths)
     while (path_id < in->max_paths)
     {
         paths[path_id]->route = in->end_room;
-        while (paths[path_id]->trail->trail)
+        while (paths[path_id]->trail && paths[path_id]->trail->trail)
         {
             paths[path_id]->trail->route = paths[path_id];
             paths[path_id]->trail->ants = paths[path_id]->ants;
@@ -71,6 +71,8 @@ int             is_next_turn(t_in *in, t_room **ant_paths, int ant_id)
     {
 		while (!ant_paths[ant_check])
             ant_check++;
+		if (ant_check >= ant_id)
+			return (FALSE);
 		if (escape_end_room_check(in, ant_paths, ant_check)
 		&& ant_paths[ant_check]->trail->id == ant_paths[ant_id]->id)
             return (TRUE);

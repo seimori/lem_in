@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 16:58:18 by seimori           #+#    #+#             */
-/*   Updated: 2020/03/16 01:30:28 by seimori          ###   ########.fr       */
+/*   Updated: 2020/03/16 14:46:31 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ void            print_ants(t_in *in, t_room **paths);
 /*
 **	parsing.c
 */
-t_env			*parsing(void);
+t_env			*parsing(char *pathname);
 
 /*
 **	li_free.c
