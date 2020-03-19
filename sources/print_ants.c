@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/10 15:32:14 by seimori           #+#    #+#             */
-/*   Updated: 2020/03/18 02:02:32 by seimori          ###   ########.fr       */
+/*   Updated: 2020/03/19 03:19:39 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_room          **write_route(t_in *in, t_room **paths)
 	path_id = 0;
     while (path_id < in->max_paths)
     {
-        paths[path_id]->route = in->end_room;
+        paths[path_id]->route = NULL;
         while (paths[path_id]->trail && paths[path_id]->trail->trail)
         {
             paths[path_id]->trail->route = paths[path_id];
@@ -32,7 +32,7 @@ t_room          **write_route(t_in *in, t_room **paths)
     return (paths);
 }
 
-void          initialize_ant_paths(t_in *in, t_room **paths, t_room **ant_paths)
+void          create_ant_paths(t_in *in, t_room **paths, t_room **ant_paths)
 {
 	int     ant_id;
     int     path_id;
@@ -53,8 +53,8 @@ void          initialize_ant_paths(t_in *in, t_room **paths, t_room **ant_paths)
 int				escape_end_room_check(t_in *in, t_room **ant_paths,
 int ant_check)
 {
-	if (ant_paths[ant_check] == in->end_room
-	&& ant_paths[ant_check]->trail != in->room)
+	if (ant_paths[ant_check]->trail->id == in->end_room->id
+	&& ant_paths[ant_check]->trail->trail != in->room)
 		return (FALSE);
 	else
 		return (TRUE);
@@ -98,7 +98,7 @@ void            print_ants(t_in *in, t_room **paths)
 
 	ant_id = 0;
     paths = write_route(in, paths);
-    initialize_ant_paths(in, paths, ant_paths);
+    create_ant_paths(in, paths, ant_paths);
     while (ant_id < in->ant_size)
     {
         ft_printf("L%d-%s", ant_id + 1, ant_paths[ant_id]->name);
