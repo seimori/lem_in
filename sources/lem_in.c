@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/29 15:46:59 by seimori           #+#    #+#             */
-/*   Updated: 2020/03/16 15:02:25 by seimori          ###   ########.fr       */
+/*   Updated: 2020/03/21 16:13:31 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,19 @@ int 		main(int argc, char **argv)
 		e = parsing(argv[1]);
 	else
 		e = parsing(NULL);
+	if (e->links == NULL)
+		return (0);
 	in = env_to_in(e);
-	// in = get_test_case();
+	if (in->end_room == NULL)
+		return (0);
 	in->max_paths = get_max_paths(in);
+	if (in->max_paths <= 0)
+		return (0);
 	paths = get_paths(in);
 	paths = ant_calculus(in, paths);
 	print_ants(in, paths);
 	free(paths);
 	free(in);
+	sleep(3);
 	return (0);
 }
