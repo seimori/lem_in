@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/10 15:32:14 by seimori           #+#    #+#             */
-/*   Updated: 2020/03/19 03:19:39 by seimori          ###   ########.fr       */
+/*   Updated: 2020/03/27 05:50:40 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,17 +99,18 @@ void            print_ants(t_in *in, t_room **paths)
 	ant_id = 0;
     paths = write_route(in, paths);
     create_ant_paths(in, paths, ant_paths);
+	if (ant_id < in->ant_size)
+		ft_printf("\n");
     while (ant_id < in->ant_size)
     {
-        ft_printf("L%d-%s", ant_id + 1, ant_paths[ant_id]->name);
+        ft_printf("L%d-%s ", ant_id + 1, ant_paths[ant_id]->name);
         ant_paths[ant_id] = ant_paths[ant_id]->route;
 		ant_id++;
         if (is_next_turn(in, ant_paths, ant_id))
         {
-            ft_printf("\n");
             ant_id = get_lowest_ant_id(ant_paths);
+			if (ant_id < in->ant_size)
+				ft_printf("\n");
         }
-        else
-            ft_printf(" ");
     }
 }

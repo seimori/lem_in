@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imorimot <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/11 11:10:29 by imorimot          #+#    #+#             */
-/*   Updated: 2019/10/27 17:24:33 by imorimot         ###   ########.fr       */
+/*   Updated: 2020/03/27 04:51:00 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int			ft_fill_line(char **line, t_buffer *buffer)
 	count = 0;
 	while ((ret = read(buffer->fd, buf, BUFF_SIZE)))
 	{
-		if (ret < 0)
+		if (ret < 0 || ret != (int)ft_strlen(*line))
 			return (-1);
 		buf[ret] = '\0';
 		if ((ft_hasnewline(*line, buf, buffer->str)))
