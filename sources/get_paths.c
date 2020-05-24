@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 16:18:46 by seimori           #+#    #+#             */
-/*   Updated: 2020/03/08 02:22:25 by seimori          ###   ########.fr       */
+/*   Updated: 2020/03/19 03:12:23 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,6 @@ t_room          **initialize_paths(t_in *in, int max_paths)
 
 t_room          *remove_path_from_queue(t_in *in, t_room *path)
 {
-    path->score = INF;
-    path = path->trail;
     while (path != in->room)
     {
         in->room = remove_from_queue(in->room, path);
@@ -94,8 +92,8 @@ t_room      *reset_score(t_room *queue)
 
 t_room **get_paths(t_in *in)
 {
-	int      path_count;
-	t_room **paths;
+	int		path_count;
+	t_room	**paths;
 
 	path_count = 0;
 	paths = initialize_paths(in, in->max_paths);
@@ -105,8 +103,7 @@ t_room **get_paths(t_in *in)
 		{
 			in->matrix = reset_visited(in);
 			in->matrix = remove_path(in, paths[path_count - 1]);
-			in->room = remove_path_from_queue(in, paths[path_count - 1]);
-			paths[path_count - 1] = paths[path_count - 1]->trail;
+			in->room = remove_path_from_queue(in, paths[path_count - 1]->trail);
             in->room = reset_score(in->room);
 		}
 		paths[path_count] = pathfinder(in);
@@ -114,6 +111,5 @@ t_room **get_paths(t_in *in)
 			return (paths);
 		path_count++;
 	}
-  paths[path_count - 1] = paths[path_count - 1]->trail;
 	return (paths);
 }
