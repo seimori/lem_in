@@ -55,7 +55,7 @@ CFLAGS = -g -Werror -Wall -Wextra
 #	!!!!!To change!!!!!!
 #	Output name
 #	!!!!!!!!!!!!!!!!!!!!
-NAME = a.out
+NAME = lem-in
 
 #
 #	Rules

@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/19 12:06:01 by ariperez          #+#    #+#             */
-/*   Updated: 2020/03/15 16:54:50 by seimori          ###   ########.fr       */
+/*   Updated: 2020/03/27 05:04:59 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,6 @@ int		ari_get_next_line(const int fd, char **line)
 		return (-1);
 	ret = readline((int)file->fd, file->buf, &file->red, &copy);
 	*line = copy;
+	ft_printf("%s", *line);
 	return (ret);
 }
