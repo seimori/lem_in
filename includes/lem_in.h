@@ -175,14 +175,16 @@ void            print_ants(t_in *in, t_room **paths);
 **	parsing.c
 */
 t_env			*parsing(char *pathname);
+void			print_links(t_env *e);
 
 /*
 **	parse_tools.c
 */
 t_memlist		*li_lstnew();
-char			*ft_strcut(char *str, int c, int part);
+char			*get_name(char *str);
 char			*li_atoi(char *str, int *target, int stop);
 int				list_to_tab(t_env *e, t_memlist *mem, int room);
+char			*ft_strstopchr(char *s, int c, int stop);
 
 /*
 **	parse_fill.c
@@ -193,7 +195,7 @@ int				fill_names(char **inst, t_memlist **mem, t_memlist *first);
 /*
 **	li_free.c
 */
-int				error(t_env **e, char **inst, int err);
+int				li_free(t_env **e, char **inst, t_memlist *first, int err);
 
 /*
 **	ari_get_next_line.c

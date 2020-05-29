@@ -53,7 +53,7 @@ int		fill_links(t_env *e, char **inst, t_memlist *f, t_memlist *mem)
 	int		id_room1;
 	int		id_room2;
 
-	if (e->names == NULL && !list_to_tab(e, f, mem->names->id))
+	if (e->names == NULL && !(list_to_tab(e, f, mem->names->id)))
 		return (0);
 	if (e->links == NULL && !init_links(e))
 		return (0);
@@ -95,10 +95,9 @@ int		fill_names(char **inst, t_memlist **mem, t_memlist *first)
 		(!(ft_strcmp(*inst, "##start\n")) && ((*mem)->n->names->startend = 1))))
 		return (1);
 	if (*inst == NULL || **inst == 'L' || ft_strchr(*inst, ' ') == NULL ||
-	((*mem)->n->names->name = ft_strcut(*inst, ' ', 0)) == NULL)
+	((*mem)->n->names->name = get_name(*inst)) == NULL)
 		return (0);
-	//free coords
-	coords = ft_strcut(*inst, ' ', 1);
+    coords = ft_strchr(*inst, ' ') + 1;
 	if (li_atoi(li_atoi(coords, &(*mem)->n->names->x, ' ') + 1,
 	&(*mem)->n->names->y, '\n') == NULL || !check_duplicate(*mem, first->n))
 		return (0);

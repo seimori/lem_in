@@ -37,27 +37,11 @@ void	print_links(t_env *e)
 	}
 }
 
-int		free_list(t_memlist *mem)
-{
-	t_memlist	*f;
-
-	while (mem->n)
-	{
-		f = mem;
-		mem = mem->n;
-		free(f);
-	}
-	free(mem);
-	return (1);
-}
-
-int		read_map(t_env *e, char **inst)
+int		read_map(t_env *e, char **inst, t_memlist *first)
 {
 	t_memlist	*mem;
-	t_memlist	*first;
 	
-	mem = li_lstnew();
-	first = mem;
+	mem = first;
 	while (ari_get_next_line(e->fd, inst) == 1 && *inst != NULL)
 	{
 		if (*inst[0] == '#' &&
@@ -66,45 +50,44 @@ int		read_map(t_env *e, char **inst)
 		else if (e->nb_ants == -1)
 		{
 			if (li_atoi(*inst, &e->nb_ants, '\n') == 0 || e->nb_ants <= 0)
-				return (0);
+				break ;
 		}
-		else if (!e->links && !ft_strchr(ft_strcut(*inst, ' ', 0), '-'))
+		else if (!e->links && !ft_strstopchr(*inst, '-', ' '))
 		{
-			if (!fill_names(inst, &mem, first) && free_list(first))
-				return (0);
+			if (!fill_names(inst, &mem, first))
+				break ;
 		}
 		else if (ft_strchr(*inst, '-'))
 		{
 			if (!fill_links(e, inst, first, mem))
-				return (0);
+				break ;
 		}
 		else
-			return (0);
+			break ;
 		free(*inst);
 	}
-	if (e->links != NULL)
-		print_links(e);
 	return (e->links ? 1 : 0);
 }
 
 t_env		*parsing(char *pathname)
 {
-	t_env	*e;
-	char	**inst;
+	t_env		*e;
+	char		**inst;
+	t_memlist	*first;
 
-	e = NULL;
-	inst = NULL;
-	e = ft_memalloc(sizeof(t_env));
+	//e = NULL;
+	//inst = NULL;
+	if (!(e = malloc(sizeof(t_env))) || !(inst = malloc(sizeof(char*))) ||
+	!(first = li_lstnew()))
+		return (0);
 	e->nb_ants = -1;
 	e->nb_room = 0;
 	e->names = NULL;
 	e->links = NULL;
-	inst = ft_memalloc(sizeof(char*));
-	if (pathname)
-		e->fd = open(pathname, FLAGS);
+	e->fd = (pathname) ? open(pathname, FLAGS) : STDIN_FILENO;
+	if (read_map(e, inst, first) == 0)
+		li_free(&e, inst, first, 1);
 	else
-		e->fd = STDIN_FILENO;
-	if (read_map(e, inst) == 0)
-		error(&e, inst, 1);
+		li_free(NULL, inst, first, 0);
 	return (e);
 }
