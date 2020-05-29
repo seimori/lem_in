@@ -12,62 +12,85 @@
 
 #include "../includes/lem_in.h"
 
-/*char	**copy_tab(char **tab, char **argv, int argc, int i)
-{
-	int		j;
-
-	j = 0;
-	if ((tab = malloc(sizeof(*tab) * (argc - i + 1))) == NULL)
-		return (NULL);
-	while (i + j < argc)
-	{
-		if ((tab[j] = ft_strdup(argv[i + j])) == NULL)
-			return (NULL);
-		j++;
-	}
-	tab[j] = NULL;
-	return (tab);
-}
-*/
-int		free_mat(int **mat)
+int		free_mat(int **mat, int nb_room)
 {
 	int		i;
 
 	i = 0;
-	while (mat[i])
+	while (i <= nb_room)
 	{
 		free(mat[i]);
+		mat[i] = NULL;
 		i++;
 	}
 	free(mat);
+	mat = NULL;
 	return (1);
 }
 
-int		free_tab(char **tab)
+int		free_tab(t_names **tab, int nb_room)
 {
 	int		i;
 
 	i = 0;
-	while (tab[i] != NULL)
+	while (i <= nb_room)
 	{
+		free(tab[i]->name);
+		tab[i]->name = NULL;
 		free(tab[i]);
+		tab[i] = NULL;
 		i++;
 	}
 	free(tab);
+	tab = NULL;
 	return (1);
 }
 
-int		error(t_env *e, char **inst, int err)
+int		free_list(t_memlist *mem)
+{
+	t_memlist	*f;
+
+	while (mem)
+	{
+		f = mem;
+		mem = mem->n;
+		if (f->names)
+		{
+			if (f->names->name)
+            	free(f->names->name);
+			free(f->names);
+			f->names = NULL;
+		}
+		free(f);
+		f = NULL;
+	}
+	return (1);
+}
+
+int		li_free(t_env **e, char **inst, t_memlist *first, int err)
 {
 	if (err)
 		write(2, "Error\n", 6);
-	if (e)
-		free(e);
+	if (e && *e)
+	{
+		if ((*e)->names)
+			free_tab((*e)->names, (*e)->nb_room);
+		if ((*e)->links)
+			free_mat((*e)->links, (*e)->nb_room);
+		free(*e);
+		*e = NULL;
+	}
+	free_list(first);
 	if (inst)
 	{
 		if (*inst)
+		{	
 			free(*inst);
+			*inst = NULL;
+		}
 		free(inst);
+		inst = NULL;
 	}
+	ari_get_next_line(-1, NULL);
 	return (err);
 }

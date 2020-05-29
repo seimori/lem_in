@@ -22,7 +22,8 @@ int 		main(int argc, char **argv)
 		e = parsing(argv[1]);
 	else
 		e = parsing(NULL);
-	if (e->links == NULL)
+	sleep(1);
+	if (e == NULL)
 		return (0);
 	in = env_to_in(e);
 	if (in->end_room == NULL)
@@ -35,6 +36,7 @@ int 		main(int argc, char **argv)
 	print_ants(in, paths);
 	free(paths);
 	free(in);
-	sleep(3);
+	li_free(&e, NULL, NULL, 0);
+	sleep(1);
 	return (0);
 }

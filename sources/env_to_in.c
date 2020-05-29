@@ -31,9 +31,9 @@ t_in		*fill_rooms(t_env *e, t_in *in)
 	while (names_id < in->room_count)
 	{
 		in->room->next = create_room_node(e->names[names_id]);
-		if (e->names[names_id].startend == END)
+		if (e->names[names_id]->startend == END)
 			in->end_room = in->room->next;
-		if (e->names[names_id].startend == START)
+		if (e->names[names_id]->startend == START)
 			first = move_start_to_first(first, in->room);
 		else
 			in->room = in->room->next;

@@ -70,10 +70,16 @@ typedef struct		s_names
 	int				y;
 }					t_names;
 
+typedef struct		s_memlist
+{
+	t_names				*names;
+	struct s_memlist	*n;
+}					t_memlist;
+
 typedef struct		s_env
 {
 	int				nb_ants;
-	t_names			*names;
+	t_names			**names;
 	int				**links;
 	int				nb_room;
 	int				fd;
@@ -114,7 +120,7 @@ typedef struct		s_in
 **  initialize_in.c
 */
 t_in				*initialize_in();
-t_room				*create_room_node(t_names names);
+t_room				*create_room_node(t_names *names);
 t_tube				*create_tube_node(int in, int out);
 
 /*
@@ -173,17 +179,33 @@ void				print_ants(t_in *in, t_room **paths);
 /*
 **	parsing.c
 */
-t_env				*parsing(char *pathname);
+t_env			*parsing(char *pathname);
+void			print_links(t_env *e);
+
+/*
+**	parse_tools.c
+*/
+t_memlist		*li_lstnew();
+char			*get_name(char *str);
+char			*li_atoi(char *str, int *target, int stop);
+int				list_to_tab(t_env *e, t_memlist *mem, int room);
+char			*ft_strstopchr(char *s, int c, int stop);
+
+/*
+**	parse_fill.c
+*/
+int				fill_links(t_env *e, char **inst, t_memlist *f, t_memlist *mem);
+int				fill_names(char **inst, t_memlist **mem, t_memlist *first);
 
 /*
 **	li_free.c
 */
-int					error(t_env *e, char **inst, int err);
+int				li_free(t_env **e, char **inst, t_memlist *first, int err);
 
 /*
 **	ari_get_next_line.c
 */
-int					ari_get_next_line(const int fd, char **line);
+int				ari_get_next_line(const int fd, char **line);
 
 /*
 **	ft_strjoinfree.c
