@@ -15,10 +15,10 @@
 #define TRUE 1
 #define FALSE 0
 
-int     ft_issign(int c)
+int			ft_issign(int c)
 {
-    if (c == '+' || c == '-')
-        return (TRUE);
-    else
-        return (FALSE);
+	if (c == '+' || c == '-')
+		return (TRUE);
+	else
+		return (FALSE);
 }
