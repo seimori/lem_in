@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/10 15:32:14 by seimori           #+#    #+#             */
-/*   Updated: 2020/03/27 05:50:40 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/02 11:49:28 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int             is_next_turn(t_in *in, t_room **ant_paths, int ant_id)
         return (TRUE);
     while (ant_check < ant_id)
     {
-		while (!ant_paths[ant_check])
+		while (ant_paths[ant_check] == NULL)
             ant_check++;
 		if (ant_check >= ant_id)
 			return (FALSE);

@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/29 15:46:59 by seimori           #+#    #+#             */
-/*   Updated: 2020/03/27 03:31:56 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/02 19:16:32 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ int 		main(int argc, char **argv)
 	paths = get_paths(in);
 	paths = ant_calculus(in, paths);
 	print_ants(in, paths);
+	visualizer(in);
 	free(paths);
 	free(in);
-	sleep(3);
 	return (0);
 }

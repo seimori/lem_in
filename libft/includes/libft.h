@@ -88,7 +88,7 @@ t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 int					ft_isspace(int c);
 int					ft_isupper(int c);
 int					ft_islower(int c);
-int     			ft_issign(int c);
+int					ft_issign(int c);
 char				*ft_strtolower(char *s);
 char				*ft_strtoupper(char *s);
 char				*ft_strmap_uc(char const *s, int (*f)(int));

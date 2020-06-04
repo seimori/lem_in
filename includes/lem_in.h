@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 16:58:18 by seimori           #+#    #+#             */
-/*   Updated: 2020/05/20 08:21:10 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/02 19:19:02 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,3 +190,8 @@ int					ari_get_next_line(const int fd, char **line);
 */
 char				*ft_strjoinfree(char *s1, char *s2, int frees1, int frees2);
 #endif
+
+/*
+**	visualizer
+*/
+void				visualizer(t_in *in);

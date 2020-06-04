@@ -24,21 +24,33 @@
 
 /*
 **	flags
+** # define MINUS 1 << 0
+** # define PLUS 1 << 1
+** # define SPACE 1 << 2
+** # define ZERO 1 << 3
+** # define HASH 1 << 4
+** Modified for norm
 */
-# define MINUS 1 << 0
-# define PLUS 1 << 1
-# define SPACE 1 << 2
-# define ZERO 1 << 3
-# define HASH 1 << 4
+# define MINUS 1
+# define PLUS 2
+# define SPACE 4
+# define ZERO 8
+# define HASH 16
 
 /*
 **	lengthmodifier
+** # define HH 1 << 0
+** # define H 1 << 1
+** # define L 1 << 2
+** # define LL 1 << 3
+** # define BIG_L 1 << 4
+** Modified for norm
 */
-# define HH 1 << 0
-# define H 1 << 1
-# define L 1 << 2
-# define LL 1 << 3
-# define BIG_L 1 << 4
+# define HH 1
+# define H 2
+# define L 4
+# define LL 8
+# define BIG_L 16
 
 /*
 **	typeindex
@@ -52,10 +64,14 @@
 
 /*
 **	special
+** # define INF 1 << 0
+** # define N_INF 1 << 1
+** # define NAN 1 << 2
+** Modified for norm
 */
-# define INF 1 << 0
-# define N_INF 1 << 1
-# define NAN 1 << 2
+# define INF  1
+# define N_INF 2
+# define NAN 4
 
 typedef struct					s_count
 {

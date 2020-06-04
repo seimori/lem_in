@@ -138,7 +138,7 @@ t_buffer	*set_buffer(int fd, t_buffer **head)
 **	  Allocate *line
 **	  Check for '\n' in buffer
 **	  Copy buffer string in *line
-**	  Return ft_fille_line (1 for print, 0 for end, -1 for error)
+**	  Return ft_fill_line (1 for print, 0 for end, -1 for error)
 */
 
 int			get_next_line(const int fd, char **line)
@@ -155,8 +155,8 @@ int			get_next_line(const int fd, char **line)
 		return (1);
 	else
 		ft_strcpy(*line, buffer->str);
-	ret = ft_fill_line(line,buffer);
-	if (ret != 0)
+	ret = ft_fill_line(line, buffer);
+	if (ret > 0)
 		return (ret);
 	while (buffer_head->next)
 	{
@@ -167,5 +167,5 @@ int			get_next_line(const int fd, char **line)
 	}
 	free(buffer_head->str);
 	free(buffer_head);
-	return (0);
+	return (ret);
 }
