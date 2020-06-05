@@ -29,16 +29,16 @@
 //     return (room);
 // }
 
-t_room			*create_room_node(t_names *names)
+t_room			*create_room_node(t_names names)
 {
 	t_room		*room;
 
 	room = (t_room*)ft_memalloc(sizeof(t_room));
-	room->id = names->id;
-	room->x = names->x;
-	room->y = names->y;
-	room->name = names->name;
-	if (names->startend == START)
+	room->id = names.id;
+	room->x = names.x;
+	room->y = names.y;
+	room->name = names.name;
+	if (names.startend == START)
 		room->score = 0;
 	else
 		room->score = INF;
