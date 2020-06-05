@@ -61,33 +61,12 @@ int		readline(int fd, char *buf, int *red, char **copy)
 	return (1);
 }
 
-int		free_file(t_fd **file)
-{
-	t_fd	*to_free;
-
-	while (*file)
-	{
-		to_free = *file;
-		if (to_free->buf)
-		{
-			free(to_free->buf);
-			to_free->buf = NULL;
-		}
-		*file = (*file != (*file)->next) ? (*file)->next : NULL;
-		free(to_free);
-		to_free = NULL;
-	}
-	return (1);
-}
-
 int		ari_get_next_line(const int fd, char **line)
 {
 	static t_fd		*file;
 	char			*copy;
 	int				ret;
 
-	if (fd == -1)
-		return (free_file(&file));
 	if (!file)
 	{
 		if (!(file = malloc(sizeof(t_fd))) ||
