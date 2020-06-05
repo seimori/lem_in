@@ -20,11 +20,18 @@ parsing.c li_free.c ari_get_next_line.c ft_strjoinfree.c \
 #	Source full name
 SRC = $(addprefix $(SRC_PATH)/, $(SRC_NAME))
 
+VIS_PATH = visualizer/sources
+
+VIS_NAME = sdl.c sdl_initializers.c sdl_quit.c \
+
+SRC += $(addprefix $(VIS_PATH)/, $(VIS_NAME))
+
 #	Path of object files
 OBJ_PATH = objects
 
 #	Get objects names from source files
 OBJ_NAME = $(SRC_NAME:.c=.o)
+OBJ_NAME += $(VIS_NAME:.c=.o)
 
 #	Object full name
 OBJ = $(addprefix $(OBJ_PATH)/, $(OBJ_NAME))
@@ -41,16 +48,16 @@ CPPFLAGS = -Iincludes
 LIB_PATH = libft
 
 #	Lib file path flag
-LDFLAGS = -Llibft
+LDFLAGS = -L$(LIB_PATH)
 
 #	-lft represents libft.a
-LDLIBS = -lft
+LDLIBS = -lft -lSDL2
 
 #	Compilator
 CC = gcc
 
 #	Compilator options
-CFLAGS = -g -Werror -Wall -Wextra
+CFLAGS = -g -w -Werror -Wall -Wextra #TODO Remove -w
 
 #	!!!!!To change!!!!!!
 #	Output name
@@ -75,6 +82,10 @@ $(NAME): $(OBJ)
 #	2> /dev/null || true is to avoid errors and messages if folder already exists
 #	$< is first dependance ($(SRC_PATH)%.c)
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
+	@mkdir $(OBJ_PATH) 2> /dev/null || true
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ -c $<
+
+$(OBJ_PATH)/%.o: $(VIS_PATH)/%.c
 	@mkdir $(OBJ_PATH) 2> /dev/null || true
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ -c $<
 

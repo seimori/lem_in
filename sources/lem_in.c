@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/29 15:46:59 by seimori           #+#    #+#             */
-/*   Updated: 2020/06/02 19:16:32 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/05 23:40:30 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int 		main(int argc, char **argv)
 		e = parsing(argv[1]);
 	else
 		e = parsing(NULL);
-	sleep(1);
+	// sleep(1);
 	if (e == NULL)
 		return (0);
 	in = env_to_in(e);
@@ -37,7 +37,7 @@ int 		main(int argc, char **argv)
 	visualizer(in);
 	free(paths);
 	free(in);
-	li_free(&e, NULL, NULL, 0);
-	sleep(1);
+	// li_free(&e, NULL, NULL, 0);
+	// sleep(1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 16:58:18 by seimori           #+#    #+#             */
-/*   Updated: 2020/05/20 08:21:10 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/05 23:36:25 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,13 @@ t_room				**ant_calculus(t_in *in, t_room **paths);
 **  print_ants.c
 */
 void				print_ants(t_in *in, t_room **paths);
+
+/*
+**	==============
+**	Visualizer
+**	==============
+*/
+void				visualizer(t_in *in);
 
 /*
 **	parsing.c
