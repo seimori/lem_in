@@ -23,6 +23,7 @@ SRC = $(addprefix $(SRC_PATH)/, $(SRC_NAME))
 VIS_PATH = visualizer/sources
 
 VIS_NAME = sdl.c sdl_initializers.c sdl_quit.c \
+sdl_error.c \
 
 SRC += $(addprefix $(VIS_PATH)/, $(VIS_NAME))
 
@@ -51,7 +52,7 @@ LIB_PATH = libft
 LDFLAGS = -L$(LIB_PATH)
 
 #	-lft represents libft.a
-LDLIBS = -lft -lSDL2
+LDLIBS = -lft -lSDL2 -lSDL2_ttf
 
 #	Compilator
 CC = gcc

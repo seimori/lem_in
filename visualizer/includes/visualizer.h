@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/20 08:04:15 by seimori           #+#    #+#             */
-/*   Updated: 2020/06/02 19:16:54 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/12 00:47:09 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@
 # include <unistd.h>
 # define SDL_MAIN_HANDLED
 # include <SDL2/SDL.h>
+# include <SDL2/SDL_ttf.h>
 // # include "../../libft/includes/libft.h"
 # include "../../includes/lem_in.h"
 
-# define SCREEN_W 640
-# define SCREEN_H 480
+# define SCREEN_W 1024
+# define SCREEN_H 768
 # define SCREEN_SCALE 1
-# define SCREEN_NAME "Protoype"
+# define SCREEN_NAME "lem-in"
 
 typedef struct		s_screen
 {
@@ -46,5 +47,6 @@ t_game				*initialize_game(t_game *game);
 int					poll_for_quit(int running);
 t_game				*game_quit(t_game *game);
 void				visualizer(t_in *in);
+void				sdl_error(void);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/20 17:24:22 by seimori           #+#    #+#             */
-/*   Updated: 2020/06/02 18:08:15 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/12 01:35:24 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void			initialize_window(t_screen *screen)
 		screen->h,
 		0
 	);
+	if (screen->window == NULL)
+		sdl_error();
 }
 
 void			initialize_renderer(t_screen *screen)
@@ -42,15 +44,14 @@ void			initialize_renderer(t_screen *screen)
 		-1,
 		SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
 	);
+	if (screen->renderer == NULL)
+		sdl_error();
 }
 
 t_game			*game_init(t_game *game)
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
-	{
-		ft_printf("SDL error -> %s\n", SDL_GetError());
-		exit(1);
-	}
+		sdl_error();
 	initialize_window(game->screen);
 	initialize_renderer(game->screen);
 	game->running = SDL_TRUE;
