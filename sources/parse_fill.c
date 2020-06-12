@@ -12,50 +12,50 @@
 
 #include "../includes/lem_in.h"
 
-int		check_name(t_env *e, char *name)
+int		check_name(t_in *e, char *name)
 {
-	int		i;
+	t_room	*current;
 
-	i = 0;
-	while (i <= e->nb_room)
+	current = e->room;
+	while (current != NULL)
 	{
-		if (ft_strcmp(e->names[i]->name, name) == 0)
-			return (e->names[i]->id);
-		i++;
+		if (ft_strcmp(current->name, name) == 0)
+			return (current->id);
+		current = current->next;
 	}
 	return (-1);
 }
 
-int		init_links(t_env *e)
+int		init_links(t_in *e)
 {
 	int		i;
 	int		j;
 
 	i = -1;
-	if (!(e->links = malloc(sizeof(int*) * (e->nb_room + 1))))
+	if (!(e->matrix = malloc(sizeof(int*) * (e->room_count))))
 		return (0);
-	while (++i <= e->nb_room)
-		if (!(e->links[i] = malloc(sizeof(int*) * (e->nb_room + 1))))
+	while (++i < e->room_count)
+		if (!(e->matrix[i] = malloc(sizeof(int*) * (e->room_count))))
 			return (0);
 	i = -1;
-	while (++i <= e->nb_room)
+	while (++i < e->room_count)
 	{
 		j = -1;
-		while (++j <= e->nb_room)
-			e->links[i][j] = 0;
+		while (++j < e->room_count)
+			e->matrix[i][j] = 0;
 	}
 	return (1);
 }
 
-int		fill_links(t_env *e, char **inst, t_memlist *f, t_memlist *mem)
+int		fill_links(t_in *e, char **inst, t_room *mem)
 {
 	char	*dash;
 	int		id_room1;
 	int		id_room2;
 
-	if (e->names == NULL && !(list_to_tab(e, f, mem->names->id)))
+	if (e->room_count == 0 && !clean_room_list(e, mem))
 		return (0);
-	if (e->links == NULL && !init_links(e))
+	if (e->matrix == NULL && !init_links(e))
 		return (0);
 	if (*inst == NULL || !(dash = ft_strchr(*inst, '-')))
 		return (0);
@@ -65,43 +65,45 @@ int		fill_links(t_env *e, char **inst, t_memlist *f, t_memlist *mem)
 	if ((id_room1 = check_name(e, *inst)) == -1 ||
 	(id_room2 = check_name(e, dash + 1)) == -1)
 		return (0);
-	e->links[id_room1][id_room2] = (id_room1 == id_room2 ? 0 : 1);
-	e->links[id_room2][id_room1] = (id_room1 == id_room2 ? 0 : 1);
+	*dash = '-';
+	(*inst)[ft_strlen(*inst)] = '\n';
+	e->matrix[id_room1][id_room2] = (id_room1 == id_room2 ? 0 : 1);
+	e->matrix[id_room2][id_room1] = (id_room1 == id_room2 ? 0 : 1);
 	return (1);
 }
 
-int		check_duplicate(t_memlist *m, t_memlist *f)
+int		check_duplicate(t_room *m, t_room *f)
 {
-	while (f != m->n)
+	while (f != m->next)
 	{
-		if (ft_strcmp(f->names->name, m->n->names->name) == 0 ||
-		(m->n->names->startend > 0 &&
-		f->names->startend == m->n->names->startend) ||
-		(f->names->x == m->n->names->x && f->names->y == m->n->names->y))
+		if (ft_strcmp(f->name, m->next->name) == 0 ||
+		(m->next->score == 0 && f->score == 0) ||
+		(f->x == m->next->x && f->y == m->next->y))
 			return (0);
-		f = f->n;
+		f = f->next;
 	}
 	return (1);
 }
 
-int		fill_names(char **inst, t_memlist **mem, t_memlist *first)
+int		fill_names(t_in *e, char **inst, t_room **mem)
 {
 	char		*coords;
 
-	if ((*mem)->n == NULL && ((*mem)->n = li_lstnew()) == NULL)
+	if ((*mem)->next == NULL && ((*mem)->next = li_lstnew()) == NULL)
 		return (0);
-	if ((*mem)->n->names->startend == 0 &&
-        ((!(ft_strcmp(*inst, "##end\n")) && ((*mem)->n->names->startend = 2)) ||
-		(!(ft_strcmp(*inst, "##start\n")) && ((*mem)->n->names->startend = 1))))
+	if (((e->end_room == NULL && (*mem)->next->score != 0 &&
+		!(ft_strcmp(*inst, "##end\n")) && (e->end_room = (*mem)->next)) ||
+		((*mem)->next->score != 0 && (*mem)->next != e->end_room &&
+		!(ft_strcmp(*inst, "##start\n")) && !((*mem)->next->score = 0))))
 		return (1);
 	if (*inst == NULL || **inst == 'L' || ft_strchr(*inst, ' ') == NULL ||
-	((*mem)->n->names->name = get_name(*inst)) == NULL)
+	((*mem)->next->name = get_name(*inst)) == NULL)
 		return (0);
     coords = ft_strchr(*inst, ' ') + 1;
-	if (li_atoi(li_atoi(coords, &(*mem)->n->names->x, ' ') + 1,
-	&(*mem)->n->names->y, '\n') == NULL || !check_duplicate(*mem, first->n))
+	if (li_atoi(li_atoi(coords, &(*mem)->next->x, ' ') + 1,
+	&(*mem)->next->y, '\n') == NULL || !check_duplicate(*mem, e->room->next))
 		return (0);
-	(*mem)->n->names->id = (*mem)->names->id + 1;
-	*mem = (*mem)->n;
+	(*mem)->next->id = (*mem)->id + 1;
+	*mem = (*mem)->next;
 	return (1);
 }

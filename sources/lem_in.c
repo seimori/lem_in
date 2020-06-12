@@ -14,29 +14,30 @@
 
 int 		main(int argc, char **argv)
 {
-	t_env	*e;
 	t_in 	*in;
 	t_room 	**paths;
 
 	if (argc == 2)
-		e = parsing(argv[1]);
+		in = parsing(argv[1]);
 	else
-		e = parsing(NULL);
-	sleep(1);
-	if (e == NULL)
+		in = parsing(NULL);
+	if (in == NULL)
+	{
+		sleep(1);
 		return (0);
-	in = env_to_in(e);
-	if (in->end_room == NULL)
-		return (0);
+	}
 	in->max_paths = get_max_paths(in);
 	if (in->max_paths <= 0)
+	{
+		sleep(1);
 		return (0);
+	}
 	paths = get_paths(in);
 	paths = ant_calculus(in, paths);
+	ft_printf("%s", in->map_buf);
 	print_ants(in, paths);
 	free(paths);
-	free(in);
-	li_free(&e, NULL, NULL, 0);
+	li_free(&in, NULL, 0);
 	sleep(1);
 	return (0);
 }

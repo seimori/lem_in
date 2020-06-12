@@ -17,7 +17,7 @@ int		free_mat(int **mat, int nb_room)
 	int		i;
 
 	i = 0;
-	while (i <= nb_room)
+	while (i < nb_room)
 	{
 		free(mat[i]);
 		mat[i] = NULL;
@@ -28,59 +28,38 @@ int		free_mat(int **mat, int nb_room)
 	return (1);
 }
 
-int		free_tab(t_names **tab, int nb_room)
+int		free_list(t_room *mem)
 {
-	int		i;
-
-	i = 0;
-	while (i <= nb_room)
-	{
-		free(tab[i]->name);
-		tab[i]->name = NULL;
-		free(tab[i]);
-		tab[i] = NULL;
-		i++;
-	}
-	free(tab);
-	tab = NULL;
-	return (1);
-}
-
-int		free_list(t_memlist *mem)
-{
-	t_memlist	*f;
+	t_room	*f;
 
 	while (mem)
 	{
 		f = mem;
-		mem = mem->n;
-		if (f->names)
-		{
-			if (f->names->name)
-            	free(f->names->name);
-			free(f->names);
-			f->names = NULL;
-		}
+		mem = mem->next;
+		if (f->name)
+            free(f->name);
+		f->name = NULL;
 		free(f);
 		f = NULL;
 	}
 	return (1);
 }
 
-int		li_free(t_env **e, char **inst, t_memlist *first, int err)
+int		li_free(t_in **e, char **inst, int err)
 {
 	if (err)
 		write(2, "Error\n", 6);
 	if (e && *e)
 	{
-		if ((*e)->names)
-			free_tab((*e)->names, (*e)->nb_room);
-		if ((*e)->links)
-			free_mat((*e)->links, (*e)->nb_room);
+		if ((*e)->room)
+			free_list((*e)->room);
+		if ((*e)->matrix)
+			free_mat((*e)->matrix, (*e)->room_count);
+		if ((*e)->map_buf)
+			free((*e)->map_buf);
 		free(*e);
 		*e = NULL;
 	}
-	free_list(first);
 	if (inst)
 	{
 		if (*inst)

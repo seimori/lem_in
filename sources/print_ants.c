@@ -95,12 +95,14 @@ void            print_ants(t_in *in, t_room **paths)
 {
 	int     ant_id;
 	t_room *ant_paths[in->ant_size];
+    int     nb_line;
 
 	ant_id = 0;
     paths = write_route(in, paths);
     create_ant_paths(in, paths, ant_paths);
 	if (ant_id < in->ant_size)
 		ft_printf("\n");
+    nb_line = 0;
     while (ant_id < in->ant_size)
     {
         ft_printf("L%d-%s ", ant_id + 1, ant_paths[ant_id]->name);
@@ -109,8 +111,11 @@ void            print_ants(t_in *in, t_room **paths)
         if (is_next_turn(in, ant_paths, ant_id))
         {
             ant_id = get_lowest_ant_id(ant_paths);
-			if (ant_id < in->ant_size)
+			if (ant_id < in->ant_size && ++nb_line)
 				ft_printf("\n");
         }
     }
+    ++nb_line;
+    ft_printf("\n");
+    ft_printf("NBR LINE : %i\n", nb_line);
 }

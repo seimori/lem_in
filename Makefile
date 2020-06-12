@@ -9,14 +9,12 @@ SRC_PATH = sources
 #	List of source files
 #	!!!!!!!!!!!!!!!!!!!!
 SRC_NAME = lem_in.c get_max_paths.c \
-initialize_in.c generate_matrix.c \
+generate_matrix.c \
 get_paths.c pathfinder.c get_next_neighbor.c \
 ant_calculus.c \
 print_ants.c \
-env_to_in.c \
 parsing.c parse_fill.c parse_tools.c \
 li_free.c ari_get_next_line.c ft_strjoinfree.c \
-# get_test_case.c test_case_multi_paths.c \
 
 #	Source full name
 SRC = $(addprefix $(SRC_PATH)/, $(SRC_NAME))
@@ -72,6 +70,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	@cd $(LIB_PATH) && $(MAKE)
 	$(CC) $^ $(LDFLAGS) $(LDLIBS) -o $@
+	$(CC) -g $^ $(LDFLAGS) $(LDLIBS) -o debug
 
 #	2> /dev/null || true is to avoid errors and messages if folder already exists
 #	$< is first dependance ($(SRC_PATH)%.c)
@@ -85,7 +84,7 @@ clean:
 	$(MAKE) -C $(LIB_PATH) clean
 
 fclean: clean
-	rm -fv $(NAME)
+	rm -fv $(NAME) debug
 	$(MAKE) -C $(LIB_PATH) fclean
 
 re: fclean all
