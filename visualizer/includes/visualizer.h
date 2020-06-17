@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/20 08:04:15 by seimori           #+#    #+#             */
-/*   Updated: 2020/06/12 00:47:09 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/17 15:56:38 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@
 # define SCREEN_H 768
 # define SCREEN_SCALE 1
 # define SCREEN_NAME "lem-in"
+
+typedef struct		s_coord
+{
+	int				x;
+	int				y;
+}					t_coord;
 
 typedef struct		s_screen
 {
