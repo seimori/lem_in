@@ -12,10 +12,10 @@
 
 #include "../includes/lem_in.h"
 
-int 		main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
-	t_in 	*in;
-	t_room 	**paths;
+	t_in	*in;
+	t_room	**paths;
 
 	if (argc == 2)
 		in = parsing(argv[1]);

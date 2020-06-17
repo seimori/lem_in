@@ -99,7 +99,7 @@ int		fill_names(t_in *e, char **inst, t_room **mem)
 	if (*inst == NULL || **inst == 'L' || ft_strchr(*inst, ' ') == NULL ||
 	((*mem)->next->name = get_name(*inst)) == NULL)
 		return (0);
-    coords = ft_strchr(*inst, ' ') + 1;
+	coords = ft_strchr(*inst, ' ') + 1;
 	if (li_atoi(li_atoi(coords, &(*mem)->next->x, ' ') + 1,
 	&(*mem)->next->y, '\n') == NULL || !check_duplicate(*mem, e->room->next))
 		return (0);

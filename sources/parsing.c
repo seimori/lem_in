@@ -84,7 +84,7 @@ int		add_to_buf(char **inst, char **buf)
 int		read_map(t_in *e, char **inst)
 {
 	t_room	*mem;
-	
+
 	mem = e->room;
 	while (ari_get_next_line(e->fd, inst) == 1 && *inst != NULL)
 	{
@@ -113,15 +113,17 @@ int		read_map(t_in *e, char **inst)
 	return (e->matrix ? 1 : 0);
 }
 
-t_in		*parsing(char *pathname)
+t_in	*parsing(char *pathname)
 {
-	t_in		*e;		
+	t_in		*e;
 	char		**inst;
 
 	//e = NULL;
 	//inst = NULL;
-	if (!(e = malloc(sizeof(t_in))) || !(inst = malloc(sizeof(char*))) ||
-	!(e->room = li_lstnew()) || !(e->map_buf = ft_memalloc(BUFF_SIZE)))
+	if (!(e = malloc(sizeof(t_in))) ||
+	!(inst = malloc(sizeof(char*))) ||
+	!(e->room = li_lstnew()) ||
+	!(e->map_buf = ft_memalloc(BUFF_SIZE)))
 		return (0);
 	e->ant_size = -1;
 	e->end_room = NULL;

@@ -89,6 +89,7 @@ typedef struct		s_in
 	t_tube			*tube;
 	int				room_count;
 	int				**matrix;
+	int				**oriented;
 	int				max_paths;
 	int				fd;
 	char			*map_buf;
@@ -150,7 +151,7 @@ void			print_links(t_in *e);
 /*
 **	parse_tools.c
 */
-t_room			*li_lstnew();
+t_room			*li_lstnew(void);
 char			*get_name(char *str);
 char			*li_atoi(char *str, int *target, int stop);
 int				clean_room_list(t_in *e, t_room *mem);

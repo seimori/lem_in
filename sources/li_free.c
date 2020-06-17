@@ -37,7 +37,7 @@ int		free_list(t_room *mem)
 		f = mem;
 		mem = mem->next;
 		if (f->name)
-            free(f->name);
+			free(f->name);
 		f->name = NULL;
 		free(f);
 		f = NULL;
@@ -63,7 +63,7 @@ int		li_free(t_in **e, char **inst, int err)
 	if (inst)
 	{
 		if (*inst)
-		{	
+		{
 			free(*inst);
 			*inst = NULL;
 		}

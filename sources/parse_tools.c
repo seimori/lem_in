@@ -12,7 +12,7 @@
 
 #include "../includes/lem_in.h"
 
-t_room	*li_lstnew()
+t_room	*li_lstnew(void)
 {
 	t_room	*new;
 
@@ -34,7 +34,7 @@ char	*get_name(char *str)
 {
 	int		i;
 	char	*dst;
-    char    tmp;
+	char	tmp;
 
 	i = 0;
 	if (str == NULL)
@@ -42,13 +42,13 @@ char	*get_name(char *str)
 	while (str[i] != '\n' && str[i] != ' ')
 		i++;
 	if (str[i] == '\n')
-        return ((dst = ft_strdup(str)) ? dst : NULL);
-    tmp = str[i];
-    str[i] = '\0';
+		return ((dst = ft_strdup(str)) ? dst : NULL);
+	tmp = str[i];
+	str[i] = '\0';
 	if (!(dst = ft_strdup(str)))
-        return (NULL);
-    str[i] = tmp;
-    return (dst);
+		return (NULL);
+	str[i] = tmp;
+	return (dst);
 }
 
 char	*ft_strstopchr(char *s, int c, int stop)
@@ -66,7 +66,7 @@ char	*ft_strstopchr(char *s, int c, int stop)
 		return (NULL);
 }
 
-char		*li_atoi(char *str, int *target, int stop)
+char	*li_atoi(char *str, int *target, int stop)
 {
 	int		i;
 	int		neg;
