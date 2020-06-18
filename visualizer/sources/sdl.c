@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/02 18:10:32 by seimori           #+#    #+#             */
-/*   Updated: 2020/06/17 15:58:42 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/18 03:23:17 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,19 +78,71 @@ void				initialize_ttf(void)
 	
 }
 
+void				fill_room_table(t_in *in, t_room **room_table)
+{
+	int				room_id;
+	t_room			*room;
+
+	room_id = 0;
+	room = in->room;
+	while (room != NULL)
+	{
+		room_table[room_id] = room;
+		room = room->next;
+		room_id++;
+	}
+}
+
+int					**mark_as_false(int **matrix, int room_id, int neighbor_id)
+{
+	matrix[room_id][neighbor_id] = FALSE;
+	matrix[neighbor_id][room_id] = FALSE;
+	return (matrix);
+}
+
+t_coord				get_neighbor_coord(t_in *in, int **matrix, t_room **room_table, int room_id)
+{
+	t_coord			neighbor;
+	int				neighbor_id;
+
+	neighbor.is_set = FALSE;
+	neighbor_id = 0;
+	while (neighbor_id < in->room_count)
+	{
+		if (matrix[room_id][neighbor_id] != FALSE)
+		{
+			neighbor.x = room_table[neighbor_id]->x;
+			neighbor.y = room_table[neighbor_id]->y;
+			neighbor.is_set = TRUE;
+			matrix = mark_as_false(matrix, room_id, neighbor_id);
+		}
+		neighbor_id++;
+	}
+	return (neighbor);
+}
+
 void				draw_connections(SDL_Renderer *renderer, t_in *in,
 					int zoom_multiplier)
 {
-	t_room			*room;	
+	t_room			*room_table[in->room_count];	
 	int				**matrix;
-	t_coord			*source;
-	t_coord			*destination;
+	int				room_id;
+	t_coord			source;
+	int				neighbor_id;
+	t_coord			destination;
 
-	room = in->room;
+	fill_room_table(in, room_table);
 	matrix = in->matrix;
-	source->x = room->x;
-	source->y = room->y;
-	destination = get_destination_coord(room, matrix); //TODO: Continue from here. Need to create that function.
+	room_id = 0;
+	while (room_id < in->room_count)
+	{
+		source.x = room_table[room_id]->x;
+		source.y = room_table[room_id]->y;
+		source.is_set = TRUE;
+		neighbor_id = 0;
+		destination = get_neighbor_coord(in, matrix, room_table, room_id); //TODO Continue from here
+		room_id++;
+	}
 }
 
 void				visualizer(t_in *in)

@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 16:58:18 by seimori           #+#    #+#             */
-/*   Updated: 2020/06/05 23:36:25 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/18 03:23:28 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,13 @@
 # include <stdlib.h>
 
 /*
-**	for open //TODO remove before final push
+**	for open //FIXME remove before final push
 */
 # include <fcntl.h>
 
 # define FALSE 0
 # define TRUE 1
+# define ERROR -1
 
 # define VISITED 2
 # define LOCKED 3
@@ -146,6 +147,7 @@ int					get_max_paths(t_in *in);
 /*
 **  get_paths.c
 */
+int             	**reset_visited(t_in *in);
 t_room				**get_paths(t_in *in);
 
 /*

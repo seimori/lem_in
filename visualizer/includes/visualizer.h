@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/20 08:04:15 by seimori           #+#    #+#             */
-/*   Updated: 2020/06/17 15:56:38 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/18 03:05:02 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct		s_coord
 {
 	int				x;
 	int				y;
+	int				is_set;
 }					t_coord;
 
 typedef struct		s_screen

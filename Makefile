@@ -58,7 +58,7 @@ LDLIBS = -lft -lSDL2 -lSDL2_ttf
 CC = gcc
 
 #	Compilator options
-CFLAGS = -g -w -Werror -Wall -Wextra #TODO Remove -w
+CFLAGS = -g -w -Werror -Wall -Wextra #FIXME Remove -w
 
 #	!!!!!To change!!!!!!
 #	Output name
