@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 16:18:46 by seimori           #+#    #+#             */
-/*   Updated: 2020/03/19 03:12:23 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/19 03:06:09 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,13 @@ t_room **get_paths(t_in *in)
             in->room = reset_score(in->room);
 		}
 		paths[path_count] = pathfinder(in);
+		if (paths[path_count]->score <= 0)
+			paths[path_count] = NULL;
 		if (paths[path_count] == NULL)
+		{
+			in->max_paths = path_count - 1;
 			return (paths);
+		}
 		path_count++;
 	}
 	return (paths);

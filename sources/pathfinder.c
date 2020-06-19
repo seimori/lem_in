@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 15:25:36 by seimori           #+#    #+#             */
-/*   Updated: 2020/03/19 02:44:49 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/18 16:59:08 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_room          *remove_from_queue(t_room *queue, t_room *node)
     t_room      *first;
 
     first = queue;
-    while (queue->next != node)
+    while (queue->next != node) //FIXME Segfault comes from here. It happens when it's called from remove_path_from_queue when the score is negative.
         queue = queue->next;
     queue->next = queue->next->next;
     return (first);
