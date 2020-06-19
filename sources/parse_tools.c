@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 17:22:10 by ariperez          #+#    #+#             */
-/*   Updated: 2020/03/21 16:07:26 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/19 18:29:36 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_room	*li_lstnew(void)
 	new->name = NULL;
 	new->score = INF;
 	new->next = NULL;
+	new->previous = NULL;
 	new->trail = NULL;
 	new->route = NULL;
 	new->ants = 0;
@@ -114,6 +115,8 @@ int		clean_room_list(t_in *e, t_room *mem)
 			tmp->next = e->room->next;
 			to_free = e->room;
 			e->room = tmp;
+			e->room->previous = NULL;
+			e->room->next->previous = e->room;
 		}
 		mem = mem->next;
 	}

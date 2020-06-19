@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/10 15:32:14 by seimori           #+#    #+#             */
-/*   Updated: 2020/06/19 03:05:02 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/19 03:20:45 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_room          **write_route(t_in *in, t_room **paths)
 	path_id = 0;
 	while (path_id < in->max_paths)
 	{
-		paths[path_id]->route = NULL; //FIXME It leaks here now
+		paths[path_id]->route = NULL;
 		while (paths[path_id]->trail && paths[path_id]->trail->trail)
 		{
 			paths[path_id]->trail->route = paths[path_id];

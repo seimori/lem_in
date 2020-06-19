@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 16:58:18 by seimori           #+#    #+#             */
-/*   Updated: 2020/05/20 08:21:10 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/19 17:51:23 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct		s_room
 	char			*name;
 	int				score;
 	struct s_room	*next;
+	struct s_room	*previous;
 	struct s_room	*trail;
 	struct s_room	*route;
 	int				ants;

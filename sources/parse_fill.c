@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 17:22:10 by ariperez          #+#    #+#             */
-/*   Updated: 2020/03/21 16:07:26 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/19 18:29:33 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int		fill_names(t_in *e, char **inst, t_room **mem)
 
 	if ((*mem)->next == NULL && ((*mem)->next = li_lstnew()) == NULL)
 		return (0);
+	(*mem)->next->previous = (*mem);
 	if (((e->end_room == NULL && (*mem)->next->score != 0 &&
 		!(ft_strcmp(*inst, "##end\n")) && (e->end_room = (*mem)->next)) ||
 		((*mem)->next->score != 0 && (*mem)->next != e->end_room &&

@@ -6,18 +6,26 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 15:25:36 by seimori           #+#    #+#             */
-/*   Updated: 2020/06/18 16:59:08 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/19 17:35:51 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
 
+// t_room          *remove_from_queue(t_room *node)
+// {
+// 		node->previous->next = node->next;
+// 		node->next->previous = node->previous;
+// 		node->previous = NULL;
+// 		node->next = NULL;
+// 		return (node);
+// }
 t_room          *remove_from_queue(t_room *queue, t_room *node)
 {
     t_room      *first;
 
     first = queue;
-    while (queue->next != node) //FIXME Segfault comes from here. It happens when it's called from remove_path_from_queue when the score is negative.
+    while (queue->next != node) //FIXME Something is wrong with the way I eliminate my paths. I should take a more distant view of the process.
         queue = queue->next;
     queue->next = queue->next->next;
     return (first);
