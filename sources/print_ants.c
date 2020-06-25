@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/10 15:32:14 by seimori           #+#    #+#             */
-/*   Updated: 2020/06/19 03:20:45 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/25 16:40:50 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_room          **write_route(t_in *in, t_room **paths)
 {
-	int      path_id;
+	int		path_id;
 
 	
 	path_id = 0;
@@ -39,7 +39,7 @@ void          create_ant_paths(t_in *in, t_room **paths, t_room **ant_paths)
 
 	ant_id = 0;
 	path_id = 0;
-	while (ant_id < in->ant_size)
+	while (ant_id < in->ant_size) //FIXME I'm losing ants here
 	{
 		ant_paths[ant_id] = paths[path_id];
 		ant_id++;

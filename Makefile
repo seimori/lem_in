@@ -49,6 +49,7 @@ LDLIBS = -lft
 CC = gcc
 
 #	Compilator options
+#CFLAGS = -g -w -Werror -Wall -Wextra # TODO Remove -w flag
 CFLAGS = -g -Werror -Wall -Wextra
 
 #	!!!!!To change!!!!!!

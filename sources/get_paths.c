@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 16:18:46 by seimori           #+#    #+#             */
-/*   Updated: 2020/06/19 03:22:26 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/25 16:41:22 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_room          *remove_path_from_queue(t_in *in, t_room *path)
 {
     while (path != in->room)
     {
-        in->room = remove_from_queue(in->room, path);
+        path = remove_from_queue(path);
         path = path->trail;
     }
     return (in->room);
@@ -107,11 +107,9 @@ t_room **get_paths(t_in *in)
             in->room = reset_score(in->room);
 		}
 		paths[path_count] = pathfinder(in);
-		if (paths[path_count]->score <= 0)
-			paths[path_count] = NULL;
-		if (paths[path_count] == NULL)
+		if (paths[path_count] == NULL || paths[path_count]->score >= INF)
 		{
-			in->max_paths = path_count - 1;
+			in->max_paths = path_count;
 			return (paths);
 		}
 		path_count++;
