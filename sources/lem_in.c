@@ -6,11 +6,20 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/29 15:46:59 by seimori           #+#    #+#             */
-/*   Updated: 2020/06/25 15:18:20 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/27 18:08:30 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
+
+t_room          **initialize_paths(t_in *in, int max_paths)
+{
+    t_room      **paths;
+
+    paths = (t_room**)ft_memalloc(sizeof(t_room*) * max_paths);
+    paths[0] = in->room;
+    return (paths);
+}
 
 int		main(int argc, char **argv)
 {
@@ -32,7 +41,9 @@ int		main(int argc, char **argv)
 		sleep(1);
 		return (0);
 	}
-	paths = get_paths(in);
+	paths = initialize_paths(in, in->max_paths);
+	paths = suurballe(in, paths);
+	// paths = get_paths(in);
 	paths = ant_calculus(in, paths);
 	ft_printf("%s", in->map_buf);
 	print_ants(in, paths);

@@ -10,7 +10,8 @@ SRC_PATH = sources
 #	!!!!!!!!!!!!!!!!!!!!
 SRC_NAME = lem_in.c get_max_paths.c \
 generate_matrix.c \
-get_paths.c pathfinder.c get_next_neighbor.c \
+suurballe.c dijkstra.c \
+get_next_neighbor.c \
 ant_calculus.c \
 print_ants.c \
 parsing.c parse_fill.c parse_tools.c \
