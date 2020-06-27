@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 16:18:46 by seimori           #+#    #+#             */
-/*   Updated: 2020/06/25 16:41:22 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/27 17:45:31 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,14 +99,14 @@ t_room **get_paths(t_in *in)
 	paths = initialize_paths(in, in->max_paths);
 	while (path_count < in->max_paths)
 	{
-		if (path_count > 0) //TODO Look thoroughly at those nested instructions. Try to write down and understand the logic.
+		if (path_count > 0)
 		{
 			in->matrix = reset_visited(in);
 			in->matrix = remove_path(in, paths[path_count - 1]);
 			in->room = remove_path_from_queue(in, paths[path_count - 1]->trail);
             in->room = reset_score(in->room);
 		}
-		paths[path_count] = pathfinder(in);
+		paths[path_count] = dijkstra(in);
 		if (paths[path_count] == NULL || paths[path_count]->score >= INF)
 		{
 			in->max_paths = path_count;

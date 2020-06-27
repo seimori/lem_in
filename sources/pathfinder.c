@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 15:25:36 by seimori           #+#    #+#             */
-/*   Updated: 2020/06/23 16:19:36 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/27 17:43:55 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,6 @@ t_room          *remove_from_queue(t_room *node)
 	node->next = NULL;
 	return (node);
 }
-// t_room          *remove_from_queue(t_room *queue, t_room *node)
-// {
-//     t_room      *first;
-
-//     first = queue;
-//     while (queue->next != node) //FIXME Something is wrong with the way I eliminate my paths. I should take a more distant view of the process.
-//         queue = queue->next;
-//     queue->next = queue->next->next;
-//     return (first);
-// }
 
 t_room          *reorder_queue(t_room *queue, t_room *neighbor)
 {
@@ -45,35 +35,14 @@ t_room          *reorder_queue(t_room *queue, t_room *neighbor)
 	}
 	if (scan != neighbor && scan->previous)
 	{
-		neighbor = remove_from_queue(neighbor); //TODO Adapt for other call
+		neighbor = remove_from_queue(neighbor);
 		scan->previous->next = neighbor;
 		neighbor->previous = scan->previous;
 		neighbor->next = scan;
 		scan->previous = neighbor;
 	}
-	return (queue); //TODO Make sure it is the first one
+	return (queue);
 }
-
-// t_room          *reorder_queue(t_room *queue, t_room *neighbor)
-// {
-//     t_room      *first;
-//     t_room      *temp;
-
-//     // queue = remove_from_queue(queue, neighbor);
-//     neighbor = remove_from_queue(queue, neighbor);
-//     first = queue;
-// 	while (queue->next
-//     && queue->next->score <= neighbor->score)
-//     {
-//         if (queue->next == neighbor)
-//             return (first);
-//         queue = queue->next;
-//     }
-// 	temp = queue->next;
-// 	queue->next = neighbor;
-// 	neighbor->next = temp;
-//     return(first);
-// }
 
 t_room          *update_score(t_room *node, t_room *neighbor)
 {
@@ -122,7 +91,7 @@ t_room			*copy_room_node(t_room *source)
 	return (copy);
 }
 
-t_room          *pathfinder(t_in *in)
+t_room          *dijkstra(t_in *in)
 {
     t_room      *queue;
 

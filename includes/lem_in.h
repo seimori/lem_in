@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 16:58:18 by seimori           #+#    #+#             */
-/*   Updated: 2020/06/22 20:53:27 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/27 17:44:10 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ t_room				**get_paths(t_in *in);
 /*
 **  pathfinder.c
 */
-t_room				*pathfinder(t_in *in);
+t_room				*dijkstra(t_in *in);
 t_room				*remove_from_queue(t_room *node);
 
 /*
