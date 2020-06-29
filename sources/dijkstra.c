@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 15:25:36 by seimori           #+#    #+#             */
-/*   Updated: 2020/06/27 17:48:06 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/29 02:57:50 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ t_room			*copy_room_node(t_room *source)
 	copy->trail = source->trail;
 	copy->route = source->route;
 	copy->ants = source->ants;
+	copy->duplicate = source->duplicate;
 	return (copy);
 }
 

@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 17:22:10 by ariperez          #+#    #+#             */
-/*   Updated: 2020/06/19 18:29:36 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/29 02:56:11 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_room	*li_lstnew(void)
 	new->trail = NULL;
 	new->route = NULL;
 	new->ants = 0;
+	new->duplicate = NOT_DUPLICATE;
 	return (new);
 }
 

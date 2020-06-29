@@ -6,17 +6,17 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 04:05:44 by seimori           #+#    #+#             */
-/*   Updated: 2020/03/06 04:07:34 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/29 02:52:37 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
 
-t_room          *get_room(t_room *node, int id)
+t_room          *get_room(t_room *node, int row_id)
 {
     while (node)
     {
-        if (node->id == id)
+        if (node->id == row_id)
             return(node);
         node = node->next;
     }

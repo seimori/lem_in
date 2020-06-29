@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/29 15:46:59 by seimori           #+#    #+#             */
-/*   Updated: 2020/06/27 18:08:30 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/29 03:12:21 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int		main(int argc, char **argv)
 	}
 	paths = initialize_paths(in, in->max_paths);
 	paths = suurballe(in, paths);
-	// paths = get_paths(in);
 	paths = ant_calculus(in, paths);
 	ft_printf("%s", in->map_buf);
 	print_ants(in, paths);

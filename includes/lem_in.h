@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 16:58:18 by seimori           #+#    #+#             */
-/*   Updated: 2020/06/27 18:03:44 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/29 02:58:26 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,10 @@
 # define VISITED 2
 # define LOCKED 3
 
+# define NOT_DUPLICATE 0
+# define DUPLICATE_IN 1
+# define DUPLICATE_OUT 2
+
 # define FLAGS O_RDONLY
 # define PATHNAME "map"
 
@@ -80,6 +84,7 @@ typedef struct		s_room
 	struct s_room	*trail;
 	struct s_room	*route;
 	int				ants;
+	int				duplicate;
 }					t_room;
 
 typedef struct		s_in
@@ -131,6 +136,7 @@ t_room				**suurballe(t_in *in, t_room **paths);
 */
 t_room				*dijkstra(t_in *in);
 t_room				*remove_from_queue(t_room *node);
+t_room				*copy_room_node(t_room *source);
 
 /*
 **  get_next_neighbor.c
