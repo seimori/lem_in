@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 15:25:36 by seimori           #+#    #+#             */
-/*   Updated: 2020/06/29 02:57:50 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/30 16:05:03 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,26 +74,7 @@ t_room          *explore_node(t_in *in, t_room *node)
     return (node);
 }
 
-t_room			*copy_room_node(t_room *source)
-{
-	t_room		*copy;
-
-	copy = (t_room*)ft_memalloc(sizeof(t_room));
-	copy->id = source->id;
-	copy->x = source->x;
-	copy->y = source->y;
-	copy->name = source->name;
-	copy->score = source->score;
-	copy->next = source->next;
-	copy->previous = copy->previous;
-	copy->trail = source->trail;
-	copy->route = source->route;
-	copy->ants = source->ants;
-	copy->duplicate = source->duplicate;
-	return (copy);
-}
-
-t_room          *dijkstra(t_in *in)
+t_room          *dijkstra(t_in *in, t_room *path)
 {
     t_room      *queue;
 
@@ -102,8 +83,9 @@ t_room          *dijkstra(t_in *in)
     {
         if (queue == in->end_room)
 		{
-			queue = copy_room_node(queue);
-            return (queue);
+			// queue = copy_room_node(queue);
+			path = queue;
+            return (path);
 		}
 		queue = explore_node(in, queue);
         queue = queue->next;

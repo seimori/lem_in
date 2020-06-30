@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 16:58:18 by seimori           #+#    #+#             */
-/*   Updated: 2020/06/29 02:58:26 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/30 16:06:10 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,9 +134,14 @@ t_room				**suurballe(t_in *in, t_room **paths);
 /*
 **  dijkstra.c
 */
-t_room				*dijkstra(t_in *in);
+t_room				*dijkstra(t_in *in, t_room *path);
 t_room				*remove_from_queue(t_room *node);
-t_room				*copy_room_node(t_room *source);
+// t_room				*copy_room_node(t_room *source);
+
+/*
+**	bellman_ford.c
+*/
+t_room				*bellman_ford(t_in *in, t_room *path);
 
 /*
 **  get_next_neighbor.c
