@@ -9,14 +9,13 @@ SRC_PATH = sources
 #	List of source files
 #	!!!!!!!!!!!!!!!!!!!!
 SRC_NAME = lem_in.c get_max_paths.c \
-initialize_in.c generate_matrix.c \
+generate_matrix.c \
 get_paths.c pathfinder.c get_next_neighbor.c \
 ant_calculus.c \
 print_ants.c \
-env_to_in.c \
 parsing.c parse_fill.c parse_tools.c \
 li_free.c ari_get_next_line.c ft_strjoinfree.c \
-# get_test_case.c test_case_multi_paths.c \
+suurballe.c pathsfinder.c print_result.c
 
 #	Source full name
 SRC = $(addprefix $(SRC_PATH)/, $(SRC_NAME))

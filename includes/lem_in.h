@@ -6,196 +6,188 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 16:58:18 by seimori           #+#    #+#             */
-/*   Updated: 2020/03/16 14:46:31 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/19 17:51:23 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_H
- #define LEM_IN_H
+# define LEM_IN_H
 
-#include "../libft/includes/libft.h"
+# include "../libft/includes/libft.h"
+
 /*
 **  for read and write
 */
-#include <unistd.h>
+# include <unistd.h>
+
 /*
 **  for malloc and free
 */
-#include <stdlib.h>
+# include <stdlib.h>
+
 /*
 **  for perror
 */
-#include <stdio.h>
+# include <stdio.h>
+
 /*
 **  for strerror
 */
-#include <string.h>
+# include <string.h>
+
 /*
 **  for exit
 */
-#include <stdlib.h>
+# include <stdlib.h>
+
 /*
 **	for open //TODO remove before final push
 */
-#include <fcntl.h>
+# include <fcntl.h>
 
-#define FALSE 0
-#define TRUE 1
+# define FALSE 0
+# define TRUE 1
 
-#define VISITED 2
-#define LOCKED 3
+# define VISITED 2
+# define LOCKED 3
 
 # define FLAGS O_RDONLY
 # define PATHNAME "map"
 
-#define INF 0x7FFFFFFF
+# define INF 0x7FFFFFFF
 
 # define BUFF_SIZE 500
 
 # define START 1
 # define END 2
 
-
-typedef struct		s_names
+typedef struct		s_tube
 {
-	int		id;
-	int		startend;
-	char	*name;
-	int		x;
-	int		y;
-}					t_names;
+	int				in;
+	int				out;
+	struct s_tube	*next;
+}					t_tube;
 
-typedef struct		s_memlist
+typedef struct		s_ant
 {
-	t_names				*names;
-	struct s_memlist	*n;
-}					t_memlist;
+	int				in;
+	int				turn;
+	int				path;
+	int				length;
+}					t_ant;
 
-typedef struct		s_env
+typedef struct		s_queue
 {
-	int		nb_ants;
-	t_names	**names;
-	int		**links;
-	int		nb_room;
-	int		fd;
-}					t_env;
+	int				in;
+	int				score;
+	struct s_queue	*next;
+}					t_queue;
 
-typedef struct      s_room
+typedef struct		s_room
 {
-	int               id;
-	int               x;
-	int               y;
-	char              *name;
-	int               score;
-	struct s_room     *next;
-	struct s_room     *trail;
-	struct s_room     *route;
-	int               ants;
-}                   t_room;
+	int				id;
+	int				x;
+	int				y;
+	char			*name;
+	int				score;
+	struct s_room	*next;
+	struct s_room	*previous;
+	struct s_room	*trail;
+	struct s_room	*route;
+	int				ants;
+}					t_room;
 
-typedef struct      s_tube
+typedef struct		s_in
 {
-	int               in;
-	int               out;
-	struct s_tube     *next;
-}                   t_tube;
-
-typedef struct      s_in
-{
-	int               ant_size;
-	t_tube            *tube;
-	t_room            *room;
-	t_room            *end_room;
-	int               room_count;
-	int               **matrix;
-	int               max_paths;
-}                   t_in;
-
-/*
-**  initialize_in.c
-*/
-t_in            *initialize_in();
-// t_room          *create_room_node(int id, int x, int y);
-t_room          *create_room_node(t_names *names);
-t_tube          *create_tube_node(int in, int out);
+	int				ant_size;
+	t_room			*room;
+	t_room			*end_room;
+	t_tube			*tube;
+	int				room_count;
+	int				**matrix;
+	int				**oriented;
+	int				max_paths;
+	int				fd;
+	char			*map_buf;
+}					t_in;
 
 /*
 **  generate_matrix.c
 */
-int             **generate_matrix(t_in *in);
+int					**generate_matrix(t_in *in);
 
 /*
 **  get_test_case.c
 */
-t_in            *get_test_case();
-
-/*
-**	env_to_in.c
-*/
-t_in			*env_to_in(t_env *e);
+t_in				*get_test_case();
 
 /*
 **	test_case_multi_paths.c
 */
-t_room			*multi_path_rooms(t_in *in);
-t_tube			*multi_path_test_tubes(t_in *in);
+t_room				*multi_path_rooms(t_in *in);
 
 /*
 **  get_max_paths.c
 */
-int             get_max_paths(t_in *in);
+int					get_max_paths(t_in *in);
 
 /*
 **  get_paths.c
 */
-t_room          **get_paths(t_in *in);
+t_room				**get_paths(t_in *in);
 
 /*
 **  pathfinder.c
 */
-t_room          *pathfinder(t_in *in);
-t_room          *remove_from_queue(t_room *queue, t_room *node);
+t_room				*pathfinder(t_in *in);
+t_room				*remove_from_queue(t_room *queue, t_room *node);
 
 /*
 **  get_next_neighbor.c
 */
-t_room          *get_next_neighbor(t_in *in, t_room *node, t_room *neighbor);
+t_room				*get_next_neighbor(t_in *in, t_room *node,
+					t_room *neighbor);
 
 /*
 **  ant_calculus.c
 */
-t_room          **ant_calculus(t_in *in, t_room **paths);
+t_room				**ant_calculus(t_in *in, t_room **paths);
 
 /*
 **  print_ants.c
 */
-void            print_ants(t_in *in, t_room **paths);
+void				print_ants(t_in *in, t_room **paths);
 
 /*
 **	parsing.c
 */
-t_env			*parsing(char *pathname);
-void			print_links(t_env *e);
+t_in			*parsing(char *pathname);
+void			print_links(t_in *e);
 
 /*
 **	parse_tools.c
 */
-t_memlist		*li_lstnew();
+t_room			*li_lstnew(void);
 char			*get_name(char *str);
 char			*li_atoi(char *str, int *target, int stop);
-int				list_to_tab(t_env *e, t_memlist *mem, int room);
+int				clean_room_list(t_in *e, t_room *mem);
 char			*ft_strstopchr(char *s, int c, int stop);
 
 /*
 **	parse_fill.c
 */
-int				fill_links(t_env *e, char **inst, t_memlist *f, t_memlist *mem);
-int				fill_names(char **inst, t_memlist **mem, t_memlist *first);
+int				fill_links(t_in *e, char **inst, t_room *mem);
+int				fill_names(t_in *e, char **inst, t_room **mem);
 
 /*
 **	li_free.c
 */
-int				li_free(t_env **e, char **inst, t_memlist *first, int err);
+int				li_free(t_in **e, char **inst, int err);
+
+int				pathsfinder(t_in *in);
+int				init_path(t_in *in);
+int				oriented_bfs(t_in *in);
+void			print_oriented(t_in *e);
 
 /*
 **	ari_get_next_line.c

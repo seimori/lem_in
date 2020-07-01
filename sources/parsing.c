@@ -12,82 +12,128 @@
 
 #include "../includes/lem_in.h"
 
-void	print_links(t_env *e)
+void	print_map(int fd, char **inst)
 {
-	int		i;
-	int		j;
-
-	i = -1;
-	ft_printf("\n                ");
-	while (++i <= e->nb_room)
-		ft_printf("[%i]", i);
-	ft_printf("\n");
-	i = -1;
-	while (++i <= e->nb_room)
+	if (*inst)
 	{
-		ft_printf("%10.10s [%i]:", e->names[i]->name, i);
-		j = -1;
-		while (++j <= e->nb_room)
-			ft_printf("  %i", e->links[i][j]);
-		if (e->names[i]->startend == 1)
-			ft_printf("  START");
-		else if (e->names[i]->startend == 2)
-			ft_printf("  END");
-		ft_printf("\n");
+		free(*inst);
+		*inst = NULL;
+	}
+	while (ari_get_next_line(fd, inst) == 1 && *inst != NULL)
+	{
+		ft_printf("%s", *inst);
+		free(*inst);
+		*inst = NULL;
 	}
 }
 
-int		read_map(t_env *e, char **inst, t_memlist *first)
+void	print_links(t_in *e)
 {
-	t_memlist	*mem;
-	
-	mem = first;
+	int		i;
+	int		j;
+	t_room	*current;
+
+	i = -1;
+	ft_printf("\n                  ");
+	while (++i < e->room_count)
+		ft_printf("[%3i]", i);
+	ft_printf("\n");
+	i = -1;
+	current = e->room;
+	while (++i < e->room_count)
+	{
+		ft_printf("%10.10s [%3i]:", current->name, i);
+		j = -1;
+		while (++j < e->room_count)
+			ft_printf("  %3i", e->matrix[i][j]);
+		if (i == 0)
+			ft_printf("  START");
+		else if (e->end_room->id == i)
+			ft_printf("  END");
+		ft_printf("\n");
+		current = current->next;
+	}
+}
+
+int		add_to_buf(char **inst, char **buf)
+{
+	int		i;
+	int		size_buf;
+	char	*new_buf;
+
+	if (((size_buf = ft_strlen(*buf)) + ft_strlen(*inst)) >= BUFF_SIZE)
+	{
+		if (!(new_buf = ft_memalloc(size_buf + BUFF_SIZE)))
+			return (0);
+		ft_memcpy(new_buf, *buf, size_buf);
+		free(*buf);
+		*buf = new_buf;
+	}
+	i = 0;
+	while ((*inst)[i])
+	{
+		(*buf)[size_buf + i] = (*inst)[i];
+		i++;
+	}
+	(*buf)[size_buf + i] = 0;
+	free(*inst);
+	*inst = NULL;
+	return (1);
+}
+
+int		read_map(t_in *e, char **inst)
+{
+	t_room	*mem;
+
+	mem = e->room;
 	while (ari_get_next_line(e->fd, inst) == 1 && *inst != NULL)
 	{
 		if (*inst[0] == '#' &&
 		ft_strcmp(*inst, "##start\n") && ft_strcmp(*inst, "##end\n"))
 			;
-		else if (e->nb_ants == -1)
+		else if (e->ant_size == -1)
 		{
-			if (li_atoi(*inst, &e->nb_ants, '\n') == 0 || e->nb_ants <= 0)
+			if (li_atoi(*inst, &e->ant_size, '\n') == 0 || e->ant_size <= 0)
 				break ;
 		}
-		else if (!e->links && !ft_strstopchr(*inst, '-', ' '))
+		else if (!e->matrix && !ft_strstopchr(*inst, '-', ' '))
 		{
-			if (!fill_names(inst, &mem, first))
+			if (!fill_names(e, inst, &mem))
 				break ;
 		}
 		else if (ft_strchr(*inst, '-'))
 		{
-			if (!fill_links(e, inst, first, mem))
+			if (!fill_links(e, inst, mem))
 				break ;
 		}
 		else
 			break ;
-		free(*inst);
+		add_to_buf(inst, &e->map_buf);
 	}
-	return (e->links ? 1 : 0);
+	return (e->matrix ? 1 : 0);
 }
 
-t_env		*parsing(char *pathname)
+t_in	*parsing(char *pathname)
 {
-	t_env		*e;
+	t_in		*e;
 	char		**inst;
-	t_memlist	*first;
 
 	//e = NULL;
 	//inst = NULL;
-	if (!(e = malloc(sizeof(t_env))) || !(inst = malloc(sizeof(char*))) ||
-	!(first = li_lstnew()))
+	if (!(e = malloc(sizeof(t_in))) ||
+	!(inst = malloc(sizeof(char*))) ||
+	!(e->room = li_lstnew()) ||
+	!(e->map_buf = ft_memalloc(BUFF_SIZE)))
 		return (0);
-	e->nb_ants = -1;
-	e->nb_room = 0;
-	e->names = NULL;
-	e->links = NULL;
+	e->ant_size = -1;
+	e->end_room = NULL;
+	e->room_count = 0;
+	e->matrix = NULL;
+	e->max_paths = 0;
 	e->fd = (pathname) ? open(pathname, FLAGS) : STDIN_FILENO;
-	if (read_map(e, inst, first) == 0)
-		li_free(&e, inst, first, 1);
+	if (read_map(e, inst) == 0)
+		li_free(&e, inst, 1);
 	else
-		li_free(NULL, inst, first, 0);
+		li_free(NULL, inst, 0);
 	return (e);
 }

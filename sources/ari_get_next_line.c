@@ -64,7 +64,9 @@ int		readline(int fd, char *buf, int *red, char **copy)
 int		free_file(t_fd **file)
 {
 	t_fd	*to_free;
+	t_fd	*begin;
 
+	begin = *file;
 	while (*file)
 	{
 		to_free = *file;
@@ -73,7 +75,7 @@ int		free_file(t_fd **file)
 			free(to_free->buf);
 			to_free->buf = NULL;
 		}
-		*file = (*file != (*file)->next) ? (*file)->next : NULL;
+		*file = ((*file)->next != begin) ? (*file)->next : NULL;
 		free(to_free);
 		to_free = NULL;
 	}
@@ -102,6 +104,5 @@ int		ari_get_next_line(const int fd, char **line)
 		return (-1);
 	ret = readline((int)file->fd, file->buf, &file->red, &copy);
 	*line = copy;
-	ft_printf("%s", *line);
 	return (ret);
 }

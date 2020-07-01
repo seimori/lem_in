@@ -6,24 +6,28 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 17:22:10 by ariperez          #+#    #+#             */
-/*   Updated: 2020/03/21 16:07:26 by seimori          ###   ########.fr       */
+/*   Updated: 2020/06/19 18:29:36 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
 
-t_memlist	*li_lstnew()
+t_room	*li_lstnew(void)
 {
-	t_memlist	*new;
+	t_room	*new;
 
-	if (!(new = malloc(sizeof(t_memlist))))
+	if (!(new = malloc(sizeof(t_room))))
 		return (NULL);
-	if (!(new->names = malloc(sizeof(t_names))))
-		return (NULL);
-	new->names->id = -1;
-	new->names->startend = 0;
-    new->names->name = NULL;
-	new->n = NULL;
+	new->id = -1;
+	new->x = 0;
+	new->y = 0;
+	new->name = NULL;
+	new->score = INF;
+	new->next = NULL;
+	new->previous = NULL;
+	new->trail = NULL;
+	new->route = NULL;
+	new->ants = 0;
 	return (new);
 }
 
@@ -31,7 +35,7 @@ char	*get_name(char *str)
 {
 	int		i;
 	char	*dst;
-    char    tmp;
+	char	tmp;
 
 	i = 0;
 	if (str == NULL)
@@ -39,13 +43,13 @@ char	*get_name(char *str)
 	while (str[i] != '\n' && str[i] != ' ')
 		i++;
 	if (str[i] == '\n')
-        return ((dst = ft_strdup(str)) ? dst : NULL);
-    tmp = str[i];
-    str[i] = '\0';
+		return ((dst = ft_strdup(str)) ? dst : NULL);
+	tmp = str[i];
+	str[i] = '\0';
 	if (!(dst = ft_strdup(str)))
-        return (NULL);
-    str[i] = tmp;
-    return (dst);
+		return (NULL);
+	str[i] = tmp;
+	return (dst);
 }
 
 char	*ft_strstopchr(char *s, int c, int stop)
@@ -63,7 +67,7 @@ char	*ft_strstopchr(char *s, int c, int stop)
 		return (NULL);
 }
 
-char		*li_atoi(char *str, int *target, int stop)
+char	*li_atoi(char *str, int *target, int stop)
 {
 	int		i;
 	int		neg;
@@ -91,29 +95,45 @@ char		*li_atoi(char *str, int *target, int stop)
 	return (str + i);
 }
 
-int		list_to_tab(t_env *e, t_memlist *mem, int room)
+int		clean_room_list(t_in *e, t_room *mem)
 {
-	int			i;
-	int			start;
-	int			end;
+	t_room	*tmp;
+	t_room	*to_free;
 
-	if ((e->nb_room = room) == -1 || 
-    !(e->names = malloc(sizeof(t_names*) * (e->nb_room + 1))))
+	if ((e->room_count = mem->id + 2) == -1 || !e->end_room ||
+		e->end_room->id == -1)
 		return (0);
-	i = 0;
-	start = 0;
-	end = 0;
+	e->end_room->id = e->room_count - 1;
+	mem = e->room;
 	while (mem)
 	{
-		mem = mem->n;
-        if (mem == NULL)
-            break ;
-		if (mem->names->startend == 1 && mem->names->id != -1)
-			start = 1;
-		if (mem->names->startend == 2 && mem->names->id != -1)
-			end = 1;
-        if (mem->names->id != -1 && (e->names[i++] = mem->names))
-		    mem->names = NULL;
+		if (mem->next == e->end_room && mem->next->next)
+		{
+			mem->next = mem->next->next;
+			mem->next->previous = mem;
+		}
+		if (mem->next && mem->next->score == 0)
+		{
+			if (mem->next->id == -1)
+				return (0);
+			tmp = mem->next;
+			mem->next = mem->next->next;
+			tmp->next = e->room->next;
+			e->room->next = tmp;
+			to_free = e->room;
+			e->room = tmp;
+			e->room->previous = NULL;
+			e->room->id = 0;
+			e->room->next->previous = e->room;
+		}
+		else if (mem->next == NULL && mem != e->end_room)
+		{
+			e->end_room->next = NULL;
+			e->end_room->previous = mem;
+			mem->next = e->end_room;
+		}
+		mem = mem->next;
 	}
-	return (start == 1 && end == 1 ? 1 : 0);
+	free(to_free);
+	return (e->room->score == 0 ? 1 : 0);
 }
