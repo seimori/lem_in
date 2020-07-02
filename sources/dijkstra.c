@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 15:25:36 by seimori           #+#    #+#             */
-/*   Updated: 2020/06/30 16:05:03 by seimori          ###   ########.fr       */
+/*   Updated: 2020/07/01 16:24:25 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_room          *reorder_queue(t_room *queue, t_room *neighbor)
 	return (queue);
 }
 
-t_room          *update_score(t_room *node, t_room *neighbor)
+t_room          *update_score_dijkstra(t_room *node, t_room *neighbor)
 {
 	int tentative_score;
 
@@ -57,7 +57,7 @@ t_room          *update_score(t_room *node, t_room *neighbor)
 	return (neighbor);
 }
 
-t_room          *explore_node(t_in *in, t_room *node)
+t_room          *explore_node_dijkstra(t_in *in, t_room *node)
 {
     t_room      *neighbor;
 
@@ -67,7 +67,7 @@ t_room          *explore_node(t_in *in, t_room *node)
 		neighbor = get_next_neighbor(in, node, neighbor);
         if (neighbor)
         {
-			neighbor = update_score(node, neighbor);
+			neighbor = update_score_dijkstra(node, neighbor);
             node = reorder_queue(node, neighbor);
 		}
 	}
@@ -87,7 +87,7 @@ t_room          *dijkstra(t_in *in, t_room *path)
 			path = queue;
             return (path);
 		}
-		queue = explore_node(in, queue);
+		queue = explore_node_dijkstra(in, queue);
         queue = queue->next;
 	}
     return (NULL);

@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/27 17:50:32 by seimori           #+#    #+#             */
-/*   Updated: 2020/06/30 17:36:33 by seimori          ###   ########.fr       */
+/*   Updated: 2020/07/02 08:01:40 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ t_room			**suurballe(t_in *in, t_room **paths)
 
 	path_id = 0;
 	// paths[0] = dijkstra(in, paths[0]); //TODO check why I get no path with 20.map
-	paths[0] = bellman_ford(in, paths[0]);
-	in->matrix = reset_visited(in);
+	paths[0] = bellman_ford(in);
+	// in->matrix = reset_visited(in);
 	in = lock_path(in, paths[path_id]);
 
 	return (paths);

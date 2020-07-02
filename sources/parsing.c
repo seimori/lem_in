@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 17:22:10 by ariperez          #+#    #+#             */
-/*   Updated: 2020/03/21 16:07:26 by seimori          ###   ########.fr       */
+/*   Updated: 2020/07/01 16:42:18 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ t_in	*parsing(char *pathname)
 	e->matrix = NULL;
 	e->max_paths = 0;
 	e->fd = (pathname) ? open(pathname, FLAGS) : STDIN_FILENO;
+	e->score_change = 1;
 	if (read_map(e, inst) == 0)
 		li_free(&e, inst, 1);
 	else

@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 16:58:18 by seimori           #+#    #+#             */
-/*   Updated: 2020/06/30 16:06:10 by seimori          ###   ########.fr       */
+/*   Updated: 2020/07/01 16:40:20 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ typedef struct		s_in
 	int				max_paths;
 	int				fd;
 	char			*map_buf;
+	size_t			score_change;
 }					t_in;
 
 /*
@@ -141,7 +142,7 @@ t_room				*remove_from_queue(t_room *node);
 /*
 **	bellman_ford.c
 */
-t_room				*bellman_ford(t_in *in, t_room *path);
+t_room				*bellman_ford(t_in *in);
 
 /*
 **  get_next_neighbor.c
