@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 17:22:10 by ariperez          #+#    #+#             */
-/*   Updated: 2020/06/29 02:56:11 by seimori          ###   ########.fr       */
+/*   Updated: 2020/07/03 03:47:23 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ int		clean_room_list(t_in *e, t_room *mem)
 				return (0);
 			tmp = mem->next;
 			mem->next = mem->next->next;
+			mem->next->previous = mem;
 			tmp->next = e->room->next;
 			to_free = e->room;
 			e->room = tmp;

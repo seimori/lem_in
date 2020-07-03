@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 16:58:18 by seimori           #+#    #+#             */
-/*   Updated: 2020/07/01 16:40:20 by seimori          ###   ########.fr       */
+/*   Updated: 2020/07/02 15:42:29 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@
 # define FALSE 0
 # define TRUE 1
 
-# define VISITED 2
+# define DUPLICATE 2
 # define LOCKED 3
 
 # define NOT_DUPLICATE 0

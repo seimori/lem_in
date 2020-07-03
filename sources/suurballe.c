@@ -6,34 +6,11 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/27 17:50:32 by seimori           #+#    #+#             */
-/*   Updated: 2020/07/02 08:01:40 by seimori          ###   ########.fr       */
+/*   Updated: 2020/07/03 03:51:28 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
-
-int             **reset_visited(t_in *in)
-{
-    int col;
-    int row;
-
-    col = 0;
-    while (col < in->room_count)
-    {
-        row = col + 1;
-        while (row < in->room_count)
-        {
-            if (in->matrix[col][row] == VISITED)
-            {
-                in->matrix[col][row] = 1;
-                in->matrix[row][col] = 1;
-            }
-            row++;
-        }
-        col++;
-    }
-    return (in->matrix);
-}
 
 int				**make_node_directed(t_in *in, t_room *node)
 {
@@ -88,9 +65,8 @@ t_room			**suurballe(t_in *in, t_room **paths)
 	int			path_id;
 
 	path_id = 0;
-	// paths[0] = dijkstra(in, paths[0]); //TODO check why I get no path with 20.map
-	paths[0] = bellman_ford(in);
-	// in->matrix = reset_visited(in);
+	paths[0] = dijkstra(in, paths[0]); //TODO check why I get no path with 20.map
+	// paths[0] = bellman_ford(in);
 	in = lock_path(in, paths[path_id]);
 
 	return (paths);
