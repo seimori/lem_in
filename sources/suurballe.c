@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/27 17:50:32 by seimori           #+#    #+#             */
-/*   Updated: 2020/07/03 03:51:28 by seimori          ###   ########.fr       */
+/*   Updated: 2020/07/03 05:10:07 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,6 @@ int				**make_node_directed(t_in *in, t_room *node)
 	return (in->matrix);
 }
 
-t_room			copy_room_node(t_room *source, t_room copy)
-{
-	// copy = (t_room*)ft_memalloc(sizeof(t_room));
-	copy.id = source->id;
-	copy.x = source->x;
-	copy.y = source->y;
-	copy.name = source->name;
-	copy.score = source->score;
-	copy.next = source->next;
-	copy.previous = source->previous;
-	copy.trail = source->trail;
-	copy.route = source->route;
-	copy.ants = source->ants;
-	copy.duplicate = source->duplicate;
-	return (copy);
-}
-
 t_in			*duplicate_node(t_in *in, t_room *node_in)
 {
 	t_room		node_out;
@@ -45,17 +28,18 @@ t_in			*duplicate_node(t_in *in, t_room *node_in)
 	node_out.duplicate = DUPLICATE_OUT;
 	node_out.previous = node_in;
 	node_in->next = &node_out;
+	in->matrix[node_out.id][node_in->id] = DUPLICATE;
 	return (in);
 }
 
-t_in			*lock_path(t_in *in, t_room *path)
+t_in			*lock_path(t_in *in, t_room *node)
 {
-	while (path->trail != NULL)
+	while (node->trail != NULL)
 	{
-		in->matrix = make_node_directed(in, path);
-		if (path != in->end_room)
-			in = duplicate_node(in, path);
-		path = path->trail;
+		in->matrix = make_node_directed(in, node);
+		if (node != in->end_room)
+			in = duplicate_node(in, node);
+		node = node->trail;
 	}
 	return (in);
 }
@@ -65,9 +49,10 @@ t_room			**suurballe(t_in *in, t_room **paths)
 	int			path_id;
 
 	path_id = 0;
-	paths[0] = dijkstra(in, paths[0]); //TODO check why I get no path with 20.map
-	// paths[0] = bellman_ford(in);
-	in = lock_path(in, paths[path_id]);
+	paths[0] = dijkstra(in, paths[0]);
+	paths[1]->score = 2000;
+	in = lock_path(in, paths[path_id]); //TODO Should I clear the scores of rooms to INF? Should there be an exception for path?
+	paths[1] = bellman_ford(in);
 
 	return (paths);
 }

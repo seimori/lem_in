@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 15:25:36 by seimori           #+#    #+#             */
-/*   Updated: 2020/07/03 03:42:34 by seimori          ###   ########.fr       */
+/*   Updated: 2020/07/03 05:09:16 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ t_room          *dijkstra(t_in *in, t_room *path)
         if (queue == in->end_room && queue->score < INF)
 		{
 			// queue = copy_room_node(queue);
-			path = queue;
+			*path = copy_room_node(queue, *path);
             return (path);
 		}
 		queue = explore_node_dijkstra(in, queue);

@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 16:58:18 by seimori           #+#    #+#             */
-/*   Updated: 2020/07/02 15:42:29 by seimori          ###   ########.fr       */
+/*   Updated: 2020/07/03 05:07:44 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,11 @@ t_room				*remove_from_queue(t_room *node);
 **	bellman_ford.c
 */
 t_room				*bellman_ford(t_in *in);
+
+/*
+**	node_tools.c
+*/
+t_room				copy_room_node(t_room *source, t_room copy);
 
 /*
 **  get_next_neighbor.c

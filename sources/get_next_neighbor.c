@@ -6,7 +6,7 @@
 /*   By: seimori <seimori@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 04:05:44 by seimori           #+#    #+#             */
-/*   Updated: 2020/07/02 15:40:10 by seimori          ###   ########.fr       */
+/*   Updated: 2020/07/03 04:52:30 by seimori          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_room          *get_next_neighbor(t_in *in, t_room *node, t_room *neighbor)
 		row = neighbor->id + 1;
 	while (row < in->room_count)
     {
-        if (in->matrix[node->id][row] == 1)
+        if (in->matrix[node->id][row] != 0)
         {
             neighbor = get_room(in->room, row);
             if (neighbor)
