@@ -8,14 +8,10 @@ SRC_PATH = sources
 #	!!!!!To change!!!!!!
 #	List of source files
 #	!!!!!!!!!!!!!!!!!!!!
-SRC_NAME = lem_in.c get_max_paths.c \
-generate_matrix.c \
-get_paths.c pathfinder.c get_next_neighbor.c \
-ant_calculus.c \
-print_ants.c \
-parsing.c parse_fill.c parse_tools.c \
-li_free.c ari_get_next_line.c ft_strjoinfree.c \
-suurballe.c pathsfinder.c print_result.c
+SRC_NAME = lem_in.c \
+parsing.c parse_fill.c parse_tools.c li_free.c \
+ari_get_next_line.c ft_strjoinfree.c \
+pathsfinder.c suurballe.c print_result.c
 
 #	Source full name
 SRC = $(addprefix $(SRC_PATH)/, $(SRC_NAME))

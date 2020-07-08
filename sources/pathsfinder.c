@@ -12,6 +12,40 @@
 
 #include "../includes/lem_in.h"
 
+t_room	*li_lstcpy(t_room *dst)
+{
+	t_room	*new;
+
+	if (!(new = malloc(sizeof(t_room))))
+		return (NULL);
+	new->id = dst->id;
+	new->x = dst->x;
+	new->y = dst->y;
+	new->name = dst->name;
+	new->score = 0;
+	new->next = NULL;
+	new->previous = NULL;
+	new->ants = 0;
+	return (new);
+}
+
+void	print_path(t_in *in)
+{
+	int		i;
+	t_room	*tmp;
+	i = -1;
+	while (++i < in->max_paths)
+	{
+		tmp = in->path[i];
+		while (tmp)
+		{
+			ft_printf("id %i name %s len %i   ", tmp->id, tmp->name, tmp->score);
+			tmp = tmp->next;
+		}
+		ft_printf("\n");
+	}
+}
+
 void	print_oriented(t_in *e)
 {
 	int		i;
@@ -58,7 +92,7 @@ int		init_oriented(t_in *in)
 			in->oriented[i][j] = 0;
 	}
 	i = -1;
-	while (++i < in->room_count - 1) //End doit etre en dernier, et reste vide
+	while (++i < in->room_count - 1)
 	{
 		j = 0;
 		while (++j < in->room_count)
@@ -73,10 +107,27 @@ int		init_oriented(t_in *in)
 
 int		pathsfinder(t_in *in)
 {
+	int     i;
+	int     j;
+
 	init_oriented(in);
+	i = -1;
+	while (++i < in->room_count)
+	{
+		j = -1;
+		while (++j < in->room_count)
+			in->matrix[i][j] = 0;
+	}
+	in->max_paths = 0;
 	while (oriented_bfs(in))
-		;
-    print_links(in);
-	init_path(in);
-	return (1);
+		in->max_paths++;
+	if (in->max_paths)
+	{
+		simple_bfs(in);
+		order_path(in);
+		init_ant(in);
+		return (1);
+	}
+	ft_printf("No path found\n");
+	return (0);
 }

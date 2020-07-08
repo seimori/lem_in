@@ -65,10 +65,10 @@ int		fill_links(t_in *e, char **inst, t_room *mem)
 	if ((id_room1 = check_name(e, *inst)) == -1 ||
 	(id_room2 = check_name(e, dash + 1)) == -1)
 		return (0);
-	*dash = '-';
-	(*inst)[ft_strlen(*inst)] = '\n';
 	e->matrix[id_room1][id_room2] = (id_room1 == id_room2 ? 0 : 1);
 	e->matrix[id_room2][id_room1] = (id_room1 == id_room2 ? 0 : 1);
+	*dash = '-';
+	(*inst)[ft_strlen(*inst)] = '\n';
 	return (1);
 }
 

@@ -56,25 +56,10 @@
 
 # define INF 0x7FFFFFFF
 
-# define BUFF_SIZE 500
+# define BUFF_SIZE 64000
 
 # define START 1
 # define END 2
-
-typedef struct		s_tube
-{
-	int				in;
-	int				out;
-	struct s_tube	*next;
-}					t_tube;
-
-typedef struct		s_ant
-{
-	int				in;
-	int				turn;
-	int				path;
-	int				length;
-}					t_ant;
 
 typedef struct		s_queue
 {
@@ -92,71 +77,28 @@ typedef struct		s_room
 	int				score;
 	struct s_room	*next;
 	struct s_room	*previous;
-	struct s_room	*trail;
-	struct s_room	*route;
 	int				ants;
 }					t_room;
+
+typedef struct		s_ant
+{
+	int				turn;
+	t_room			*path;
+}					t_ant;
 
 typedef struct		s_in
 {
 	int				ant_size;
 	t_room			*room;
 	t_room			*end_room;
-	t_tube			*tube;
 	int				room_count;
 	int				**matrix;
 	int				**oriented;
 	int				max_paths;
+	t_room			**path;
 	int				fd;
 	char			*map_buf;
 }					t_in;
-
-/*
-**  generate_matrix.c
-*/
-int					**generate_matrix(t_in *in);
-
-/*
-**  get_test_case.c
-*/
-t_in				*get_test_case();
-
-/*
-**	test_case_multi_paths.c
-*/
-t_room				*multi_path_rooms(t_in *in);
-
-/*
-**  get_max_paths.c
-*/
-int					get_max_paths(t_in *in);
-
-/*
-**  get_paths.c
-*/
-t_room				**get_paths(t_in *in);
-
-/*
-**  pathfinder.c
-*/
-t_room				*pathfinder(t_in *in);
-t_room				*remove_from_queue(t_room *queue, t_room *node);
-
-/*
-**  get_next_neighbor.c
-*/
-t_room				*get_next_neighbor(t_in *in, t_room *node,
-					t_room *neighbor);
-
-/*
-**  ant_calculus.c
-*/
-t_room				**ant_calculus(t_in *in, t_room **paths);
-
-/*
-**  print_ants.c
-*/
-void				print_ants(t_in *in, t_room **paths);
 
 /*
 **	parsing.c
@@ -184,10 +126,25 @@ int				fill_names(t_in *e, char **inst, t_room **mem);
 */
 int				li_free(t_in **e, char **inst, int err);
 
+/*
+**	pathsfinder.c
+*/
 int				pathsfinder(t_in *in);
-int				init_path(t_in *in);
-int				oriented_bfs(t_in *in);
+t_room			*li_lstcpy(t_room *dst);
 void			print_oriented(t_in *e);
+void			print_path(t_in *in);
+
+/*
+**	suurballe.c
+*/
+int				oriented_bfs(t_in *in);
+
+/*
+**	print_result.c
+*/
+void			order_path(t_in *in);
+int				init_ant(t_in *in);
+int				simple_bfs(t_in *in);
 
 /*
 **	ari_get_next_line.c

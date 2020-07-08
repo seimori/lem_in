@@ -3,17 +3,26 @@
 A 0 1
 ##end
 H 1 0
+J 67 65
+K 78 78
 B 1 1
 C 2 2
 D 3 3
+Z 42 42
 E 4 4
 F 5 5
 G 6 6
-A-B
+#A-B
 B-C
 C-D
-A-E
+#A-E
 E-D
+#Z-E
+#Z-D
+K-A
+K-E
+A-J
+J-B
 D-H
 D-F
 E-F

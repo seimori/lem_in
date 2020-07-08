@@ -25,8 +25,6 @@ t_room	*li_lstnew(void)
 	new->score = INF;
 	new->next = NULL;
 	new->previous = NULL;
-	new->trail = NULL;
-	new->route = NULL;
 	new->ants = 0;
 	return (new);
 }

@@ -12,25 +12,25 @@
 
 #include "../includes/lem_in.h"
 
-void	order_tab(int **path, int lenght_path)
+void	order_path(t_in *in)
 {
+	int		order;
 	int		i;
-	int		ordered;
-	int		tmp;
+	t_room	*tmp;
 
-	ordered = 0;
-	while (ordered == 0)
+	order = 1;
+	while (order)
 	{
-		ordered = 1;
+		order = 0;
 		i = -1;
-		while (++i < lenght_path - 1)
+		while (++i < in->max_paths - 1)
 		{
-			if (path[0][i] > path[0][i + 1])
+			if (in->path[i]->score > in->path[i + 1]->score)
 			{
-				tmp = path[0][i];
-				path[0][i] = path[0][i + 1];
-				path[0][i + 1] = tmp;
-				ordered = 0; 
+				tmp = in->path[i];
+				in->path[i] = in->path[i + 1];
+				in->path[i + 1] = tmp;
+				order = 1;
 			}
 		}
 	}
@@ -39,99 +39,103 @@ void	order_tab(int **path, int lenght_path)
 int		print_ant(t_in *in, t_ant *ants)
 {
 	int		i;
-	int		j;
 	int		turn;
 
-	turn = 0;
-	i = -1;
-	while (i < in->ant_size)
+	turn = -1;
+	while (ants[in->ant_size - 1].path && (++turn || 1))
 	{
 		i = -1;
-		while (++i < in->ant_size && ants[i].turn <= turn)
+		while (++i < in->ant_size)
 		{
-			j = -1;
-			while (ants[i].in != -1 && in->matrix[ants[i].in][++j] != ants[i].path)
-				;
-			if (ants[i].in != -1)
-				ft_printf("L%i-id%i/%i/%i ", i, j, ants[i].path, ants[i].turn);
-			ants[i].in = (j < in->room_count - 1 ? j : -1);
+			if (ants[i].turn <= turn && ants[i].path &&
+				ft_printf("L%i-%s ", i, ants[i].path->name))
+				ants[i].path = ants[i].path->next;
 		}
-		turn++;
 		ft_printf("\n");
-		i = -1;
-		while (++i < in->ant_size && ants[i].in == -1)
-			;
 	}
-	ft_printf("NBR LINE : %i\n", turn);
+	ft_printf("NBR LINE : %i\n", ++turn);
 	return (1);
 }
 
-int		init_ant(t_in *in, int **path, int lenght_path)
+int		init_ant(t_in *in)
 {
 	t_ant	*ants;
 	int		i;
-	int		j;
-	int		turn;
 	int		ant;
 
-	ant = in->ant_size;
 	ants = malloc(sizeof(t_ant) * in->ant_size);
-	while (ant--)
+	ant = -1;
+	while (++ant < in->ant_size)
 	{
-		i = 0;
-		while (i < lenght_path - 1 &&
-			path[0][i] + path[1][i] > path[0][i + 1] + path[1][i + 1])
-			{
-				//ft_printf("num%i, nbr%i\n", path[0][i], path[1][i]);
-				i++;
-			}
-		ft_printf("num%i, nbr%i,\n", path[0][i], path[1][i]);
-		path[1][i]++;
-	}
-	j = 0;
-	turn = 0;
-	ft_printf("lenght - 1 = %i\n", lenght_path - 1);
-	while (path[1][0])
-	{
-		i = -1;
-		
-		while (++i < lenght_path && path[1][i])
-		{
-			path[1][i]--;
-			ft_printf("%i, %i  ", i, path[1][i]);
-			ants[j].in = 0;
-			ants[j].turn = turn;
-			ants[j].path = i + 2;
-			ants[j++].length = path[0][i];
-		}
-		turn++;
-		ft_printf("\n");
+		i = (in->path[0]->score == 1 ? 0 : in->max_paths - 1);
+		while (i && in->path[i]->score + in->path[i]->ants >=
+							in->path[i - 1]->score + in->path[i - 1]->ants)
+			i--;
+		ants[ant].turn = (in->path[0]->score == 1 ? 0 : in->path[i]->ants);
+		ants[ant].path = in->path[i]->next;
+		in->path[i]->ants++;
 	}
 	print_ant(in, ants);
 	return (1);
 }
 
-int		init_path(t_in *in)
+int		add_room(t_in *in, int room_to, t_queue *q, t_queue *end_visit)
 {
-	int		i;
-	int		j;
-	int		**path;
-
-	j = 0;
+	t_room		*tmp;
+	int			len;
+	int			i;
+	
+	if ((end_visit->next = malloc(sizeof(t_queue))) == NULL)
+		return (0);
+	end_visit->next->in = room_to;
+	end_visit->next->score = q->score + 1;
+	end_visit->next->next = NULL;
 	i = -1;
-	while (++i < in->room_count)
-		j += (in->matrix[0][i] ? 1 : 0);
-	path = malloc(sizeof(int*) * 2);
-	path[0] = malloc(sizeof(int) * j);
-	path[1] = malloc(sizeof(int) * j);	
-	i = -1;
-	j = 0;
-	while (++i < in->room_count)
+	while (in->path[++i]->id != q->in)
+		;
+	tmp = in->room;
+	while (tmp->id != room_to)
+		tmp = tmp->next;
+	in->path[i]->next = li_lstcpy(tmp);
+	in->path[i]->next->score = in->path[i]->score + 1;
+	in->path[i]->next->previous = in->path[i];
+	in->path[i] = in->path[i]->next;
+	if (in->path[i]->id == in->room_count - 1 && (len = in->path[i]->score))
 	{
-		if (in->matrix[0][i] > 1 && !(path[1][j] = 0))
-			path[0][j++] = in->matrix[i][0];
+		while (in->path[i]->previous != NULL)
+			in->path[i] = in->path[i]->previous;
+		in->path[i]->score = len;
 	}
-	order_tab(path, j);
-	init_ant(in, path, j);
+	return (1);
+}
+int		simple_bfs(t_in *in)
+{
+	t_queue     *q;
+	t_queue     *end_visit;
+	int			j;
+
+	if ((in->path = malloc(sizeof(t_room*) * in->max_paths)) == NULL)
+		return (0);
+	if ((q = malloc(sizeof(t_queue))) == NULL)
+		return (0);
+	q->in = 0;
+	q->score = 0;
+	q->next = NULL;
+	j = -1;
+	while (++j < in->max_paths)
+		in->path[j] = li_lstcpy(in->room);
+	end_visit = q;
+	while (q && (j = -1))
+	{
+		while (++j < in->room_count)
+		{
+			if (in->matrix[q->in][j] == 1 && in->matrix[j][q->in] == 1 &&
+				!(in->matrix[q->in][j] = 0))
+				in->matrix[j][q->in] = 0;
+			else if (in->matrix[q->in][j] == 1 && add_room(in, j, q, end_visit))
+				end_visit = end_visit->next;
+		}
+		q = q->next;
+	}
 	return (1);
 }
