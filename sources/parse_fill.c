@@ -87,6 +87,28 @@ int		check_duplicate(t_room *m, t_room *f)
 
 int		fill_names(t_in *e, char **inst, t_room **mem)
 {
+	if ((*mem)->next == NULL && ((*mem)->next = li_lstnew()) == NULL)
+		return (0);
+	if ((e->end_room == NULL && (*mem)->next != e->start_room &&
+		!(ft_strcmp(*inst, "##end\n")) && (e->end_room = (*mem)->next)) ||
+		(e->start_room == NULL && (*mem)->next != e->end_room &&
+		!(ft_strcmp(*inst, "##start\n")) && (e->start_room = (*mem)->next)))
+		return (1);
+	if (*inst == NULL || **inst == 'L' || ft_strchr(*inst, ' ') == NULL ||
+	((*mem)->next->name = get_name(*inst)) == NULL)
+		return (0);
+	if (li_atoi(li_atoi(ft_strchr(*inst, ' ') + 1, &(*mem)->next->x, ' ') + 1,
+	&(*mem)->next->y, '\n') == NULL || !check_duplicate(*mem, e->room->next))
+		return (0);
+	(*mem)->next->id = (*mem)->id +
+		((*mem)->next == e->end_room || (*mem)->next == e->start_room ? 0 : 1);
+	(*mem)->next->id += ((*mem)->id == -1 ? 1 : 0);
+	*mem = (*mem)->next;
+	return (1);
+}
+
+/*int		fill_names(t_in *e, char **inst, t_room **mem)
+{
 	char		*coords;
 
 	if ((*mem)->next == NULL && ((*mem)->next = li_lstnew()) == NULL)
@@ -109,4 +131,4 @@ int		fill_names(t_in *e, char **inst, t_room **mem)
 	(*mem)->next->id += ((*mem)->id == -1 ? 1 : 0);
 	*mem = (*mem)->next;
 	return (1);
-}
+}*/

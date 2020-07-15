@@ -95,43 +95,23 @@ char	*li_atoi(char *str, int *target, int stop)
 
 int		clean_room_list(t_in *e, t_room *mem)
 {
-	t_room	*tmp;
-	t_room	*to_free;
-
-	if ((e->room_count = mem->id + 2) == -1 || !e->end_room ||
-		e->end_room->id == -1)
+	if ((e->room_count = mem->id + 2) == 1 || !e->end_room ||
+	e->end_room->id == -1 || !e->start_room || e->start_room->id == -1)
 		return (0);
+	e->start_room->id = 0;
+	e->start_room->score = 0;
 	e->end_room->id = e->room_count - 1;
 	mem = e->room;
 	while (mem)
 	{
-		if (mem->next == e->end_room && mem->next->next)
-		{
+		while (mem->next == e->end_room || mem->next == e->start_room)
 			mem->next = mem->next->next;
-			mem->next->previous = mem;
-		}
-		if (mem->next && mem->next->score == 0)
-		{
-			if (mem->next->id == -1)
-				return (0);
-			tmp = mem->next;
-			mem->next = mem->next->next;
-			tmp->next = e->room->next;
-			e->room->next = tmp;
-			to_free = e->room;
-			e->room = tmp;
-			e->room->previous = NULL;
-			e->room->id = 0;
-			e->room->next->previous = e->room;
-		}
-		else if (mem->next == NULL && mem != e->end_room)
-		{
+		if (mem->next == NULL && mem != e->end_room && (mem->next = e->end_room))
 			e->end_room->next = NULL;
-			e->end_room->previous = mem;
-			mem->next = e->end_room;
-		}
 		mem = mem->next;
 	}
-	free(to_free);
+	e->start_room->next = e->room->next;
+	free(e->room);
+	e->room = e->start_room;
 	return (e->room->score == 0 ? 1 : 0);
 }

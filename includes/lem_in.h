@@ -90,6 +90,7 @@ typedef struct		s_in
 {
 	int				ant_size;
 	t_room			*room;
+	t_room			*start_room;
 	t_room			*end_room;
 	int				room_count;
 	int				**matrix;
@@ -137,13 +138,14 @@ void			print_path(t_in *in);
 /*
 **	suurballe.c
 */
+t_queue			*free_queue(t_queue *q);
 int				oriented_bfs(t_in *in);
 
 /*
 **	print_result.c
 */
 void			order_path(t_in *in);
-int				init_ant(t_in *in);
+void			init_ant(t_in *in, t_ant *ants);
 int				simple_bfs(t_in *in);
 
 /*

@@ -36,7 +36,7 @@ void	order_path(t_in *in)
 	}
 }
 
-int		print_ant(t_in *in, t_ant *ants)
+void	print_ant(t_in *in, t_ant *ants)
 {
 	int		i;
 	int		turn;
@@ -53,17 +53,14 @@ int		print_ant(t_in *in, t_ant *ants)
 		}
 		ft_printf("\n");
 	}
-	ft_printf("NBR LINE : %i\n", ++turn);
-	return (1);
+	ft_printf("NBR LINE : %i\n", turn + 1);
 }
 
-int		init_ant(t_in *in)
+void		init_ant(t_in *in, t_ant *ants)
 {
-	t_ant	*ants;
 	int		i;
 	int		ant;
 
-	ants = malloc(sizeof(t_ant) * in->ant_size);
 	ant = -1;
 	while (++ant < in->ant_size)
 	{
@@ -76,17 +73,16 @@ int		init_ant(t_in *in)
 		in->path[i]->ants++;
 	}
 	print_ant(in, ants);
-	return (1);
 }
 
-int		add_room(t_in *in, int room_to, t_queue *q, t_queue *end_visit)
+t_queue	*add_room(t_in *in, int room_to, t_queue *q, t_queue *end_visit)
 {
 	t_room		*tmp;
 	int			len;
 	int			i;
 	
 	if ((end_visit->next = malloc(sizeof(t_queue))) == NULL)
-		return (0);
+		return (free_queue(q));
 	end_visit->next->in = room_to;
 	end_visit->next->score = q->score + 1;
 	end_visit->next->next = NULL;
@@ -96,7 +92,8 @@ int		add_room(t_in *in, int room_to, t_queue *q, t_queue *end_visit)
 	tmp = in->room;
 	while (tmp->id != room_to)
 		tmp = tmp->next;
-	in->path[i]->next = li_lstcpy(tmp);
+	if ((in->path[i]->next = li_lstcpy(tmp)) == NULL)
+		return (free_queue(q));
 	in->path[i]->next->score = in->path[i]->score + 1;
 	in->path[i]->next->previous = in->path[i];
 	in->path[i] = in->path[i]->next;
@@ -106,12 +103,13 @@ int		add_room(t_in *in, int room_to, t_queue *q, t_queue *end_visit)
 			in->path[i] = in->path[i]->previous;
 		in->path[i]->score = len;
 	}
-	return (1);
+	return (end_visit->next);
 }
 int		simple_bfs(t_in *in)
 {
 	t_queue     *q;
 	t_queue     *end_visit;
+	t_queue     *tmp;
 	int			j;
 
 	if ((in->path = malloc(sizeof(t_room*) * in->max_paths)) == NULL)
@@ -123,7 +121,10 @@ int		simple_bfs(t_in *in)
 	q->next = NULL;
 	j = -1;
 	while (++j < in->max_paths)
-		in->path[j] = li_lstcpy(in->room);
+	{
+		if ((in->path[j] = li_lstcpy(in->room)) == NULL && !free_queue(q))
+			return (0);
+	}
 	end_visit = q;
 	while (q && (j = -1))
 	{
@@ -132,10 +133,15 @@ int		simple_bfs(t_in *in)
 			if (in->matrix[q->in][j] == 1 && in->matrix[j][q->in] == 1 &&
 				!(in->matrix[q->in][j] = 0))
 				in->matrix[j][q->in] = 0;
-			else if (in->matrix[q->in][j] == 1 && add_room(in, j, q, end_visit))
-				end_visit = end_visit->next;
+			else if (in->matrix[q->in][j] == 1 &&
+						(end_visit = add_room(in, j, q, end_visit)) == NULL)
+				return (0);
 		}
+		tmp = q;
 		q = q->next;
+		free(tmp);
+		tmp = NULL;
 	}
+	order_path(in);
 	return (1);
 }

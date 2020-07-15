@@ -24,6 +24,7 @@ char	*ft_strjoinfree(char *s1, char *s2, int frees1, int frees2)
 		return (NULL);
 	join = ft_strcpy(join, s1);
 	join = ft_strcat(join, s2);
+	join[size] = '\0';
 	if (frees1)
 		free(s1);
 	if (frees2)

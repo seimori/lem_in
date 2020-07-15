@@ -22,12 +22,13 @@ int		main(int argc, char **argv)
 		in = parsing(NULL);
 	if (in == NULL)
 	{
-		//sleep(1);
+	//	sleep(1);
 		return (0);
 	}
 	ft_printf("%s\n", in->map_buf);
-	pathsfinder(in);
+	if (!pathsfinder(in) && li_free(&in, NULL, 0))
+		return (0);
 	li_free(&in, NULL, 0);
 	//sleep(1);
-	return (0);
+	return (1);
 }

@@ -12,6 +12,20 @@
 
 #include "../includes/lem_in.h"
 
+t_queue	*free_queue(t_queue *q)
+{
+	t_queue	*tmp;
+
+	while (q)
+	{
+		tmp = q;
+		q = q->next;
+		free(tmp);
+		tmp = NULL;
+	}
+	return (NULL);
+}
+
 void	retrace_path(t_in *in, int room_in)
 {
 	int		tmp;
@@ -56,7 +70,7 @@ t_queue		*explore_room(t_in *in, t_queue **to_visit, t_queue *tmp)
 				end_visit = end_visit->next;
 			tmp = (*to_visit)->next;
 			if ((end_visit->next = malloc(sizeof(t_queue))) == NULL)
-				return (NULL);
+				return (free_queue(*to_visit));
 			end_visit->next->in = j;
 			end_visit->next->score = (*to_visit)->score + in->oriented[(*to_visit)->in][j];
 			end_visit->next->next = (in->oriented[(*to_visit)->in][j] == -1 ? tmp : NULL);
@@ -72,7 +86,6 @@ t_queue		*explore_room(t_in *in, t_queue **to_visit, t_queue *tmp)
 int		oriented_bfs(t_in *in)
 {
 	t_queue     *to_visit;
-	t_queue		*tmp;
 
 	if ((to_visit = malloc(sizeof(t_queue))) == NULL)
 		return (0);
@@ -84,16 +97,11 @@ int		oriented_bfs(t_in *in)
 		if (in->oriented[to_visit->in][(in->room_count - 1) * 2 - 1])
 		{
 			retrace_path(in, to_visit->in);
-			while (to_visit)
-			{
-				tmp = to_visit;
-				to_visit = to_visit->next;
-				free(tmp);
-				tmp = NULL;
-			}
+			free_queue(to_visit);
 			return (1);
 		}
 		to_visit = explore_room(in, &to_visit, NULL);
 	}
+	free_queue(to_visit);
 	return (0);
 }

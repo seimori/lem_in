@@ -109,8 +109,10 @@ int		pathsfinder(t_in *in)
 {
 	int     i;
 	int     j;
+	t_ant	*ants;
 
-	init_oriented(in);
+	if (!init_oriented(in))
+		return (0);
 	i = -1;
 	while (++i < in->room_count)
 	{
@@ -121,11 +123,16 @@ int		pathsfinder(t_in *in)
 	in->max_paths = 0;
 	while (oriented_bfs(in))
 		in->max_paths++;
+	//print_links(in);
 	if (in->max_paths)
 	{
-		simple_bfs(in);
-		order_path(in);
-		init_ant(in);
+		if (!simple_bfs(in))
+			return (0);
+		if ((ants = malloc(sizeof(t_ant) * in->ant_size)) == NULL)
+			return (0);
+		init_ant(in, ants);
+		free(ants);
+		ants = NULL;
 		return (1);
 	}
 	ft_printf("No path found\n");

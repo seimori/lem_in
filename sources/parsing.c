@@ -55,13 +55,24 @@ void	print_links(t_in *e)
 	}
 }
 
+size_t	ft_strlenn(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i] != '\0')
+		i++;
+	//ft_printf("FIN\n");
+	return (i);
+}
+
 int		add_to_buf(char **inst, char **buf)
 {
 	int		i;
 	int		size_buf;
 	char	*new_buf;
 
-	if (((size_buf = ft_strlen(*buf)) + ft_strlen(*inst)) >= BUFF_SIZE)
+	if (((size_buf = ft_strlen(*buf)) + ft_strlenn(*inst)) >= BUFF_SIZE)
 	{
 		if (!(new_buf = ft_memalloc(size_buf + BUFF_SIZE)))
 			return (0);
@@ -72,6 +83,7 @@ int		add_to_buf(char **inst, char **buf)
 	i = 0;
 	while ((*inst)[i])
 	{
+		
 		(*buf)[size_buf + i] = (*inst)[i];
 		i++;
 	}
@@ -118,18 +130,19 @@ t_in	*parsing(char *pathname)
 	t_in		*e;
 	char		**inst;
 
-	//e = NULL;
-	//inst = NULL;
 	if (!(e = malloc(sizeof(t_in))) ||
 	!(inst = malloc(sizeof(char*))) ||
 	!(e->room = li_lstnew()) ||
 	!(e->map_buf = ft_memalloc(BUFF_SIZE)))
 		return (0);
 	e->ant_size = -1;
+	e->start_room = NULL;
 	e->end_room = NULL;
 	e->room_count = 0;
 	e->matrix = NULL;
+	e->oriented = NULL;
 	e->max_paths = 0;
+	e->path = NULL;
 	e->fd = (pathname) ? open(pathname, FLAGS) : STDIN_FILENO;
 	if (read_map(e, inst) == 0)
 		li_free(&e, inst, 1);

@@ -51,11 +51,11 @@ int		readline(int fd, char *buf, int *red, char **copy)
 		end = buf[i];
 		buf[i] = '\0';
 		*copy = ft_strjoinfree(*copy, buf, 1, 0);
-		end == '\n' ? *copy = ft_strjoinfree(*copy, "\n", 1, 0) : 0;
-		if (end == '\n')
+		if (end == '\n' && (*copy = ft_strjoinfree(*copy, "\n", 1, 0)))
 			ft_memmove(buf, (buf + i + 1), *red - i);
 		end == '\n' ? ft_strclr(buf + *red - i - 1) : ft_strclr(buf);
-		if (end != '\n' && (*red = read(fd, buf, BUFF_SIZE)) == 0)
+		if (end != '\n' && (*red = read(fd, buf, BUFF_SIZE)) == 0 &&
+						(*copy = ft_strjoinfree(*copy, "\n", 1, 0)))
 			return (1);
 	}
 	return (1);
@@ -93,7 +93,7 @@ int		ari_get_next_line(const int fd, char **line)
 	if (!file)
 	{
 		if (!(file = malloc(sizeof(t_fd))) ||
-			!(file->buf = ft_strnew(BUFF_SIZE)))
+			!(file->buf = ft_strnew(BUFF_SIZE + 1)))
 			return (-1);
 		file->fd = (size_t)fd;
 		file->red = 0;

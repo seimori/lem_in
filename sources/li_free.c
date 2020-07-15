@@ -28,7 +28,7 @@ int		free_mat(int **mat, int nb_room)
 	return (1);
 }
 
-int		free_list(t_room *mem)
+int		free_room_list(t_room *mem, int room)
 {
 	t_room	*f;
 
@@ -36,7 +36,7 @@ int		free_list(t_room *mem)
 	{
 		f = mem;
 		mem = mem->next;
-		if (f->name)
+		if (room && f->name)
 			free(f->name);
 		f->name = NULL;
 		free(f);
@@ -45,31 +45,44 @@ int		free_list(t_room *mem)
 	return (1);
 }
 
+int		free_inst(char **inst)
+{
+	if (*inst)
+	{
+		free(*inst);
+		*inst = NULL;
+	}
+	free(inst);
+	return (1);
+}
+
 int		li_free(t_in **e, char **inst, int err)
 {
+	int		i;
+
 	if (err)
 		write(2, "Error\n", 6);
 	if (e && *e)
 	{
 		if ((*e)->room)
-			free_list((*e)->room);
+			free_room_list((*e)->room, 1);
 		if ((*e)->matrix)
 			free_mat((*e)->matrix, (*e)->room_count);
+		if ((*e)->oriented)
+			free_mat((*e)->oriented, ((*e)->room_count - 1) * 2);
+		if ((*e)->path && (i = -1))
+		{
+			while (++i < (*e)->max_paths)
+				free_room_list((*e)->path[i], 0);
+			free((*e)->path);
+		}
 		if ((*e)->map_buf)
 			free((*e)->map_buf);
 		free(*e);
 		*e = NULL;
 	}
-	if (inst)
-	{
-		if (*inst)
-		{
-			free(*inst);
-			*inst = NULL;
-		}
-		free(inst);
+	if (inst && free_inst(inst))
 		inst = NULL;
-	}
 	ari_get_next_line(-1, NULL);
 	return (err);
 }
