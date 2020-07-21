@@ -1,14 +1,15 @@
 #!/bin/bash
 
-LEMIN="./lem-in";
-DIR="test_maps/";
+LEMIN="./lem-in"
+DIR="maps/"
 nm -u ./lem-in;
 # norminette -RCheckForbiddenSourceHeader;
 # cat -e author
-ERROR_DIR='map_error/';
+ERROR_DIR='error/'
 ERROR_MAPS=`ls $DIR$ERROR_DIR`
-SIMPLE_DIR='map_simple/';
-SIMPLE_MAPS=`ls $DIR$SIMPLE_DIR`;
+SIMPLE_DIR='simple/'
+SIMPLE_MAPS=`ls $DIR$SIMPLE_DIR`
+LAST_DIR='last/'
 CHOICE=0
 MAP=0
 let "REPETITION = 1"
@@ -62,17 +63,18 @@ if [ $MAP != "0" ]; then
 		time ./generator $MAP | $LEMIN
 		#./generator $MAP | $LEMIN | leaks lem-in;
 	elif [ $REPETITION -gt 1 ]; then
+		rm -rf maps/last
+		mkdir maps/last
 		while [ $REPETITION -ne 0 ]
 		do
 			echo -e "\n\033[35mMAP number $REPETITION\033[37m\n"
-			./generator $MAP > map
-			head map | grep "lines required" | cut -d ' ' -f 6-8 | tr '\n' ' '
+			./generator $MAP > $DIR$LAST_DIR$REPETITION
+			head $DIR$LAST_DIR$REPETITION | grep "lines required" | cut -d ' ' -f 6-8 | tr '\n' ' '
 			echo -e "   lem_in: \c"
-			time $LEMIN map | grep "NBR LINE" | cut -d ' ' -f 4
+			time $LEMIN $DIR$LAST_DIR$REPETITION | grep "NBR LINE" | cut -d ' ' -f 4
 			let "REPETITION = REPETITION - 1"
 			sleep 1
 		done
-		rm map
 	else
 		echo -e "\nPlease put a number greater than 0.\n"
 	fi

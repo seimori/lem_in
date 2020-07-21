@@ -36,24 +36,25 @@ void	order_path(t_in *in)
 	}
 }
 
-void	print_ant(t_in *in, t_ant *ants)
+int		print_ant(t_in *in)
 {
 	int		i;
 	int		turn;
 
 	turn = -1;
-	while (ants[in->ant_size - 1].path && (++turn || 1))
+	while (in->ants[in->ant_size - 1].path && (++turn || 1))
 	{
 		i = -1;
 		while (++i < in->ant_size)
 		{
-			if (ants[i].turn <= turn && ants[i].path &&
-				ft_printf("L%i-%s ", i, ants[i].path->name))
-				ants[i].path = ants[i].path->next;
+			if (in->ants[i].turn <= turn && in->ants[i].path &&
+				ft_printf("L%i-%s ", i, in->ants[i].path->name))
+				in->ants[i].path = in->ants[i].path->next;
 		}
 		ft_printf("\n");
 	}
 	ft_printf("NBR LINE : %i\n", turn + 1);
+	return (1);
 }
 
 void		init_ant(t_in *in, t_ant *ants)
@@ -72,7 +73,22 @@ void		init_ant(t_in *in, t_ant *ants)
 		ants[ant].path = in->path[i]->next;
 		in->path[i]->ants++;
 	}
-	print_ant(in, ants);
+	if (in->ants == NULL && (in->best = in->path) && (in->max_best = in->max_paths))
+		in->ants = ants;
+	else if (ants[ant - 1].turn + ants[ant - 1].path->previous->score <
+			in->ants[ant - 1].turn + in->ants[ant - 1].path->previous->score)
+	{
+		free_room_list(in->best, in->max_best, 0);
+		in->best = in->path;
+		in->max_best = in->max_paths;
+		free(in->ants);
+		in->ants = ants;
+	}
+	else
+	{
+		free_room_list(in->path, in->max_paths, 0);
+		free(ants);
+	}
 }
 
 t_queue	*add_room(t_in *in, int room_to, t_queue *q, t_queue *end_visit)
@@ -81,11 +97,8 @@ t_queue	*add_room(t_in *in, int room_to, t_queue *q, t_queue *end_visit)
 	int			len;
 	int			i;
 	
-	if ((end_visit->next = malloc(sizeof(t_queue))) == NULL)
+	if ((end_visit->next = add_queue(room_to, q->score + 1, NULL)) == NULL)
 		return (free_queue(q));
-	end_visit->next->in = room_to;
-	end_visit->next->score = q->score + 1;
-	end_visit->next->next = NULL;
 	i = -1;
 	while (in->path[++i]->id != q->in)
 		;
@@ -108,40 +121,25 @@ t_queue	*add_room(t_in *in, int room_to, t_queue *q, t_queue *end_visit)
 int		simple_bfs(t_in *in)
 {
 	t_queue     *q;
-	t_queue     *end_visit;
+	t_queue     *endq;
 	t_queue     *tmp;
 	int			j;
 
-	if ((in->path = malloc(sizeof(t_room*) * in->max_paths)) == NULL)
+	if (!(in->path = malloc(sizeof(t_room*) * in->max_paths)) ||
+	!(j = -1) || !(q = add_queue(0, 0, NULL)))
 		return (0);
-	if ((q = malloc(sizeof(t_queue))) == NULL)
-		return (0);
-	q->in = 0;
-	q->score = 0;
-	q->next = NULL;
-	j = -1;
 	while (++j < in->max_paths)
-	{
-		if ((in->path[j] = li_lstcpy(in->room)) == NULL && !free_queue(q))
+		if (!(in->path[j] = li_lstcpy(in->room)) && !free_queue(q))
 			return (0);
-	}
-	end_visit = q;
+	endq = q;
 	while (q && (j = -1))
 	{
 		while (++j < in->room_count)
-		{
-			if (in->matrix[q->in][j] == 1 && in->matrix[j][q->in] == 1 &&
-				!(in->matrix[q->in][j] = 0))
-				in->matrix[j][q->in] = 0;
-			else if (in->matrix[q->in][j] == 1 &&
-						(end_visit = add_room(in, j, q, end_visit)) == NULL)
+			if (in->matrix[q->in][j] == 1 && !(endq = add_room(in, j, q, endq)))
 				return (0);
-		}
 		tmp = q;
 		q = q->next;
 		free(tmp);
-		tmp = NULL;
 	}
-	order_path(in);
 	return (1);
 }

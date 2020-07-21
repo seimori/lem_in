@@ -88,17 +88,20 @@ typedef struct		s_ant
 
 typedef struct		s_in
 {
+	int				fd;
+	char			*map_buf;
 	int				ant_size;
+	int				room_count;
 	t_room			*room;
 	t_room			*start_room;
 	t_room			*end_room;
-	int				room_count;
 	int				**matrix;
 	int				**oriented;
 	int				max_paths;
 	t_room			**path;
-	int				fd;
-	char			*map_buf;
+	int				max_best;
+	t_room			**best;
+	t_ant			*ants;
 }					t_in;
 
 /*
@@ -125,6 +128,7 @@ int				fill_names(t_in *e, char **inst, t_room **mem);
 /*
 **	li_free.c
 */
+int				free_room_list(t_room **mem, int max, int room);
 int				li_free(t_in **e, char **inst, int err);
 
 /*
@@ -139,6 +143,7 @@ void			print_path(t_in *in);
 **	suurballe.c
 */
 t_queue			*free_queue(t_queue *q);
+t_queue			*add_queue(int in, int score, t_queue *next);
 int				oriented_bfs(t_in *in);
 
 /*
@@ -147,6 +152,7 @@ int				oriented_bfs(t_in *in);
 void			order_path(t_in *in);
 void			init_ant(t_in *in, t_ant *ants);
 int				simple_bfs(t_in *in);
+int				print_ant(t_in *in);
 
 /*
 **	ari_get_next_line.c
@@ -156,5 +162,5 @@ int				ari_get_next_line(const int fd, char **line);
 /*
 **	ft_strjoinfree.c
 */
-char			*ft_strjoinfree(char *s1, char *s2, int frees1, int frees2);
+char			*ft_strjoinfree(char *s1, char *s2, char bonus, int tofree);
 #endif

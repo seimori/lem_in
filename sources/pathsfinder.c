@@ -37,9 +37,10 @@ void	print_path(t_in *in)
 	while (++i < in->max_paths)
 	{
 		tmp = in->path[i];
+		ft_printf("PATH NB : %i  len:%i  =>  ", i, tmp->score);
 		while (tmp)
 		{
-			ft_printf("id %i name %s len %i   ", tmp->id, tmp->name, tmp->score);
+			ft_printf("%i : %s /// ", tmp->id, tmp->name);
 			tmp = tmp->next;
 		}
 		ft_printf("\n");
@@ -111,30 +112,24 @@ int		pathsfinder(t_in *in)
 	int     j;
 	t_ant	*ants;
 
-	if (!init_oriented(in))
+	if ((i = -1) && !init_oriented(in))
 		return (0);
-	i = -1;
-	while (++i < in->room_count)
-	{
-		j = -1;
+	while (++i < in->room_count && (j = -1))
 		while (++j < in->room_count)
 			in->matrix[i][j] = 0;
-	}
 	in->max_paths = 0;
 	while (oriented_bfs(in))
-		in->max_paths++;
-	//print_links(in);
-	if (in->max_paths)
 	{
+		in->max_paths++;
 		if (!simple_bfs(in))
 			return (0);
+		order_path(in);
 		if ((ants = malloc(sizeof(t_ant) * in->ant_size)) == NULL)
 			return (0);
 		init_ant(in, ants);
-		free(ants);
-		ants = NULL;
-		return (1);
 	}
+	if (in->max_paths && print_ant(in) && ft_printf("nb room : %i\n", in->room_count))
+		return (1);
 	ft_printf("No path found\n");
 	return (0);
 }

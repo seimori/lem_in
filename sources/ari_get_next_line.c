@@ -50,12 +50,12 @@ int		readline(int fd, char *buf, int *red, char **copy)
 			i++;
 		end = buf[i];
 		buf[i] = '\0';
-		*copy = ft_strjoinfree(*copy, buf, 1, 0);
-		if (end == '\n' && (*copy = ft_strjoinfree(*copy, "\n", 1, 0)))
+		*copy = ft_strjoinfree(*copy, buf, end, 1);
+		if (end == '\n')
 			ft_memmove(buf, (buf + i + 1), *red - i);
 		end == '\n' ? ft_strclr(buf + *red - i - 1) : ft_strclr(buf);
 		if (end != '\n' && (*red = read(fd, buf, BUFF_SIZE)) == 0 &&
-						(*copy = ft_strjoinfree(*copy, "\n", 1, 0)))
+						(*copy = ft_strjoinfree(*copy, "\n", 0, 1)))
 			return (1);
 	}
 	return (1);

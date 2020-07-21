@@ -26,6 +26,19 @@ t_queue	*free_queue(t_queue *q)
 	return (NULL);
 }
 
+
+t_queue	*add_queue(int in, int score, t_queue *next)
+{
+	t_queue	*to_visit;
+
+	if ((to_visit = malloc(sizeof(t_queue))) == NULL)
+		return (NULL);
+	to_visit->in = in;
+	to_visit->score = score;
+	to_visit->next = next;
+	return (to_visit);
+}
+
 void	retrace_path(t_in *in, int room_in)
 {
 	int		tmp;
@@ -34,6 +47,7 @@ void	retrace_path(t_in *in, int room_in)
 	in->oriented[(in->room_count - 1) * 2 - 1][room_in] = -1;
 	in->oriented[room_in][(in->room_count - 1) * 2 - 1] = 0;
 	in->matrix[room_in / 2][in->room_count - 1] = 1;
+	in->matrix[in->room_count - 1][room_in / 2] = -1;
 	prev = (in->room_count - 1) * 2 - 1;
 	while (room_in)
 	{
@@ -42,9 +56,9 @@ void	retrace_path(t_in *in, int room_in)
 		in->oriented[tmp][room_in] = 0;
 		if (tmp + (tmp % 2) != room_in + (room_in % 2))
 		{
-			in->matrix[(tmp + (tmp % 2)) / 2][(room_in + (room_in % 2)) / 2] = 1;
-			if (in->oriented[room_in][prev] == 1)
-				in->oriented[room_in][prev] = 0;
+			in->matrix[(tmp + (tmp % 2)) / 2][(room_in + (room_in % 2)) / 2] += 1;
+			in->matrix[(room_in + (room_in % 2)) / 2][(tmp + (tmp % 2)) / 2] += -1;
+			in->oriented[room_in][prev] == 1 ? in->oriented[room_in][prev] = 1 : 0;
 			prev = room_in;	
 		}
 		room_in = (in->oriented[room_in][0] < 0 ? 0 : in->oriented[room_in][0]);
@@ -69,11 +83,10 @@ t_queue		*explore_room(t_in *in, t_queue **to_visit, t_queue *tmp)
 			while (in->oriented[(*to_visit)->in][j] == 1 && end_visit->next != NULL)
 				end_visit = end_visit->next;
 			tmp = (*to_visit)->next;
-			if ((end_visit->next = malloc(sizeof(t_queue))) == NULL)
+			if ((end_visit->next = add_queue(j,
+			(*to_visit)->score + in->oriented[(*to_visit)->in][j],
+			(in->oriented[(*to_visit)->in][j] == -1 ? tmp : NULL))) == NULL)
 				return (free_queue(*to_visit));
-			end_visit->next->in = j;
-			end_visit->next->score = (*to_visit)->score + in->oriented[(*to_visit)->in][j];
-			end_visit->next->next = (in->oriented[(*to_visit)->in][j] == -1 ? tmp : NULL);
 			in->oriented[j][0] = ((*to_visit)->in == 0 ? -3 : (*to_visit)->in);
 		}
 	}
@@ -87,11 +100,8 @@ int		oriented_bfs(t_in *in)
 {
 	t_queue     *to_visit;
 
-	if ((to_visit = malloc(sizeof(t_queue))) == NULL)
+	if ((to_visit = add_queue(0, 2, NULL)) == NULL)
 		return (0);
-	to_visit->in = 0;
-	to_visit->score = 2;
-	to_visit->next = NULL;
 	while (to_visit)
 	{
 		if (in->oriented[to_visit->in][(in->room_count - 1) * 2 - 1])

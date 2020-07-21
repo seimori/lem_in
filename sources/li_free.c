@@ -28,20 +28,27 @@ int		free_mat(int **mat, int nb_room)
 	return (1);
 }
 
-int		free_room_list(t_room *mem, int room)
+int		free_room_list(t_room **mem, int max, int room)
 {
 	t_room	*f;
+	int		i;
 
-	while (mem)
+	i = -1;
+	while (++i < max)
 	{
-		f = mem;
-		mem = mem->next;
-		if (room && f->name)
-			free(f->name);
-		f->name = NULL;
-		free(f);
-		f = NULL;
+		while (mem[i])
+		{
+			f = mem[i];
+			mem[i] = mem[i]->next;
+			if (room && f->name)
+				free(f->name);
+			f->name = NULL;
+			free(f);
+			f = NULL;
+		}
 	}
+	if (!room)
+		free(mem);
 	return (1);
 }
 
@@ -58,24 +65,20 @@ int		free_inst(char **inst)
 
 int		li_free(t_in **e, char **inst, int err)
 {
-	int		i;
-
 	if (err)
 		write(2, "Error\n", 6);
 	if (e && *e)
 	{
 		if ((*e)->room)
-			free_room_list((*e)->room, 1);
+			free_room_list(&(*e)->room, 1, 1);
 		if ((*e)->matrix)
 			free_mat((*e)->matrix, (*e)->room_count);
 		if ((*e)->oriented)
 			free_mat((*e)->oriented, ((*e)->room_count - 1) * 2);
-		if ((*e)->path && (i = -1))
-		{
-			while (++i < (*e)->max_paths)
-				free_room_list((*e)->path[i], 0);
-			free((*e)->path);
-		}
+		if ((*e)->best)
+			free_room_list((*e)->best, (*e)->max_best, 0);
+		if ((*e)->ants)
+			free((*e)->ants);
 		if ((*e)->map_buf)
 			free((*e)->map_buf);
 		free(*e);

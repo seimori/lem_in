@@ -55,24 +55,13 @@ void	print_links(t_in *e)
 	}
 }
 
-size_t	ft_strlenn(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i] != '\0')
-		i++;
-	//ft_printf("FIN\n");
-	return (i);
-}
-
 int		add_to_buf(char **inst, char **buf)
 {
 	int		i;
 	int		size_buf;
 	char	*new_buf;
 
-	if (((size_buf = ft_strlen(*buf)) + ft_strlenn(*inst)) >= BUFF_SIZE)
+	if (((size_buf = ft_strlen(*buf)) + ft_strlen(*inst)) >= BUFF_SIZE)
 	{
 		if (!(new_buf = ft_memalloc(size_buf + BUFF_SIZE)))
 			return (0);
@@ -143,6 +132,9 @@ t_in	*parsing(char *pathname)
 	e->oriented = NULL;
 	e->max_paths = 0;
 	e->path = NULL;
+	e->max_best = 0;
+	e->best = NULL;
+	e->ants = NULL;
 	e->fd = (pathname) ? open(pathname, FLAGS) : STDIN_FILENO;
 	if (read_map(e, inst) == 0)
 		li_free(&e, inst, 1);
